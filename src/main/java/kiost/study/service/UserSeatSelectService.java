@@ -17,6 +17,16 @@ public class UserSeatSelectService{
 		model.addAttribute("seatState", listResult);
 		
 	}
+	// list값 확인 *********************** test
+	public void seatPste() {
+		ShowSeatTableDAO dao = new ShowSeatTableDAO();
+		ArrayList<ShowSeatTableDTO> listResult = dao.seatPState();
+		for(ShowSeatTableDTO i : listResult) {
+			System.out.println(i.toString());
+		}
+	}
+	
+	
 	
 	//예약, 스터디룸 내일 날짜 없을 시 insert
 	public void timeTable_Chk() {
