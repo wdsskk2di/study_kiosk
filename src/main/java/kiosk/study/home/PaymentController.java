@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.care.template.Constant;
 
+import kiosk.study.CheckService.existSeatService;
 import kiosk.study.dto.studyDTO;
 import kiosk.study.service.dayTime.StudyStateService;
 import kiosk.study.service.dayTime.dayPayUser;
@@ -53,6 +54,7 @@ public class PaymentController {
 			//이미 누군가 있다면 입력되지 않게 돌려야..
 			ks = new SeatEmptyCheck();
 			ks.execute(model);	
+			
 			
 			if(title.equals("p") && num > 0 && num < 21) {  //당일 좌석 + 입력값이 1~20 사이				
 				

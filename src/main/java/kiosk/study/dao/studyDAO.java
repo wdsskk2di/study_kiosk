@@ -162,6 +162,25 @@ public class studyDAO {
 		template.update(updateSeatInfo);
 		template.update(resetSeatInfo);	
 	}
+	
+	public String notSeatInfo(ShowSeatTableDTO dto) {
+		// 선택한 좌석의 endtime값을 가져옴
+		String sql = "select endtime from SHOWTODAYSTUDYSEAT where seatNum="+dto.getSeatNum();
+		
+		return template.queryForObject(sql, String.class);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	//관리자 결제확인 내역 저장(오류)
 	public int dbManager(studyDTO dto) {
