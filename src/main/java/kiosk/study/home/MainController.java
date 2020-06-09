@@ -14,12 +14,13 @@ import kiost.study.service.UpdateSeatInfo;
 import kiost.study.service.UserSeatSelectService;
 
 @Controller
-public class KioskController {
+public class MainController {
+	// 페이지의 이동의 역할만 하는 컨트롤러
 
 	private KioskService ks;
 	public UserSeatSelectService us = new UserSeatSelectService();
 
-	public KioskController() {
+	public MainController() {
 		String config = "classpath:applicationJDBC.xml";
 		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext(config);
 		try {
@@ -30,11 +31,15 @@ public class KioskController {
 		}
 	}
 
-	//메인 페이지
+	
+	
+	/* 메인 페이지 ##1 */
 	@RequestMapping("/")
 	public String home() {
 		return "default/main";
 	}
+	
+	
 	@RequestMapping("main")
 	public String main(HttpServletRequest request, Model model) {
 		return "default/main";
