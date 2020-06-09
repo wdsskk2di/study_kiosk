@@ -7,18 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.care.template.Constant;
-import kiost.study.service.KioskService;
-import kiost.study.service.UpdateSeatInfo;
-//import kiost.study.service.UserSeatSelectService;
-// ***   Service 의 간편성을 높이기 위해서  implement받지 않음   *** //
-import kiost.study.service.UserSeatSelectService;
 
 @Controller
 public class MainController {
 	// 페이지의 이동의 역할만 하는 컨트롤러
-
-	private KioskService ks;
-	public UserSeatSelectService us = new UserSeatSelectService();
 
 	public MainController() {
 		String config = "classpath:applicationJDBC.xml";
@@ -26,26 +18,24 @@ public class MainController {
 		try {
 			JdbcTemplate template = ctx.getBean("template", JdbcTemplate.class);
 			Constant.template = template;
-		}finally {
+		} finally {
 			ctx.close();
 		}
 	}
 
-	
-	
-	/* 메인 페이지 ##1 */
+	/* 메인 페이지 ##1 아파치 실행시 화면만 띄워주는 코드 */
 	@RequestMapping("/")
 	public String home() {
 		return "default/main";
 	}
-	
-	
+
+	/* 메인 페이지 ##2 다른 화면에서 메인화면으로 전환할 때 쓰는 코드 */
 	@RequestMapping("main")
-	public String main(HttpServletRequest request, Model model) {
+	public String main() {
 		return "default/main";
 	}
 
-	//스터디룸 당일, 예약 선택 페이지
+	/* 스터디룸 페이지 ##3 시간제, 예약선택 두가지의 메뉴가 있는 페이지로 이동만 할 때 쓰는 코드 */
 	@RequestMapping("studyRoom")
 	public String studyRoom(HttpServletRequest request, Model model) {
 		String title = request.getParameter("title");
@@ -53,78 +43,21 @@ public class MainController {
 		return "default/studyRoom";
 	}
 
-	//당일 좌석 번호 선택 페이지
-	@RequestMapping("toDaySeat")
-	public String toDaySeat(HttpServletRequest request, Model model) {
-		model.addAttribute("title", request.getParameter("title"));
-
-		// 당일 좌석 좌석 확인 구현하기
-		ks = new UpdateSeatInfo();
-		ks.execute(model);
-
-		if(request.getParameter("title").equals("p")) {
-			//당일좌석 사용자 유무
-			us.seatPState(model);
-		}
-
-		return "chooseSeatNum";
-	}
-
-	
-	// 당일 스터디룸 좌석 번호 선택 페이지
-	@RequestMapping("toDayRoom")
-	public String chooseSeatNum(HttpServletRequest request, Model model) {
-		model.addAttribute("title", request.getParameter("title"));
-
-		// 당일 좌석 좌석 확인 구현하기
-		ks = new UpdateSeatInfo();
-		ks.execute(model);
-
-		if(request.getParameter("title").equals("s")) {
-			//당일좌석 사용자 유무
-			us.roomPState(model);
-		}
-
-		return "chooseSeatNum";
-	}
-
-	//예약 좌석, 예약 스터디룸 좌석 번호 선택 페이지
-	@RequestMapping("reserve")
-	public String reserve(HttpServletRequest request, Model model) {
-		model.addAttribute("title", request.getParameter("title"));
-		//test_reserve 테이블에 DB에 내일 날짜 없으면 insert
-		us.timeTable_Chk();
-		
-		//좌석 정보
-		ks = new UpdateSeatInfo();
-		ks.execute(model);
-
-		if(request.getParameter("title").equals("r")) {
-			//예약좌석 사용자 유무
-			us.seatRState(model);
-		}else {		
-			//스터디룸 사용자 유무
-			us.roomPState(model);
-		}
-
-		return "reserve";
-	}
-
-	//예약 확인 페이지
+	/* 예약 확인 페이지 ##4 예약 확인 페이지로 이동할 때 쓰는 코드 */
 	@RequestMapping("reserveChk")
 	public String reserveChk(HttpServletRequest request, Model model) {
 		model.addAttribute("title", request.getParameter("title"));
 		return "reserveJSP/reserveChk";
 	}
 
-	//예약 내역 DB연동 결과 리스트
+	// ##5 예약 내역 DB연동 결과 리스트 *************************
 	@RequestMapping("reserveChkList")
 	public String reserveChkList(HttpServletRequest request, Model model) {
 		model.addAttribute("title", request.getParameter("title"));
 		return "reserveJSP/reserveChkList";
 	}
 
-	//예약 내역 자세히
+	// ##6 예약 내역 자세히  *********************************
 	@RequestMapping("reserveChkResult")
 	public String reserveChkResult(HttpServletRequest request, Model model) {
 		model.addAttribute("title", request.getParameter("title"));

@@ -5,3 +5,16 @@ $1 혹은 $$1 이 주석에 붙어있는  : 실패문 및 실패
 
 
 이외  **************** 를 엄청 붙여둔 주석의 경우 미완료된 것들
+
+
+
+
+/*------------------kiosk.study.home------------------*/
+ 	@1 MainController.java 
+		// 페이지의 이동의 역할만 하는 컨트롤러
+ 		/* 메인 페이지 ##1 아파치 실행시 화면만 띄워주는 코드 */			 home()
+ 		/* 메인 페이지 ##2 다른 화면에서 메인화면으로 전환할 때 쓰는 코드 */ 	 main()
+ 		/* 스터디룸 페이지 ##3 두가지의 메뉴 이동만 할 때 쓰는 코드 */		 studyRoom(HttpServletRequest request, Model model)
+ 		/* 예약 확인 페이지 ##4 예약 확인 페이지로 이동할 때 쓰는 코드 */		 reserveChk(HttpServletRequest request, Model model)
+ 		// ##5 예약 내역 DB연동 결과 리스트 ********************		 reserveChkList(HttpServletRequest request, Model model)
+ 		// ##6 예약 내역 자세히  ****************************		 reserveChkResult(HttpServletRequest request, Model model)
