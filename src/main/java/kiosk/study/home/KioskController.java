@@ -34,7 +34,7 @@ public class KioskController {
 	public String toDaySeat(HttpServletRequest request, Model model) {
 		model.addAttribute("title", request.getParameter("title"));
 		
-		System.out.println(request.getParameter("seatNum")); // null 
+		
 		
 		// 기존의 사용자가 있으면 DB 테이블에 update
 		usi.updateSeat(model);
@@ -42,9 +42,10 @@ public class KioskController {
 		if(request.getParameter("title").equals("p")) {
 			//좌석에 대한 endtime을 list로 가져와서 화면에 뿌려줌
 			us.seatPState(model);
-			us.seatPste();
+//			us.seatPste();
 		}
 		
+		System.out.println(request.getParameter("seatNum")); // null 
 
 		return "chooseSeatNum";
 	}
