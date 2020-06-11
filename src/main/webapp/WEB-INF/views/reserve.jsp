@@ -28,6 +28,18 @@
 <script type="text/javascript" src="resources/jquery-1.12.1-ui.js"></script>
 <!-- 타이머(이벤트 미발생시 main화면 이동) -->
 <script type="text/javascript" src="resources/jsFile/timer.js"></script>
+<script type="text/javascript">
+	//form submit시 미입력값 있으면 전송 막기
+	function formCheck() {
+		if($("#Num").val() == 0){
+			alert("좌석 번호를 선택해주세요");
+			return false;
+		}else{
+			return true;
+		}	
+}
+</script>
+
 </head>
 <body>
 <c:import url="/WEB-INF/views/default/header.jsp"/>
@@ -60,7 +72,7 @@
 </c:when>
 </c:choose>
 
-<form action="reservePayment" method="get">
+<form action="reservePayment" method="get" onsubmit="return formCheck()">
 	<input type="hidden" name="title" value="${title }">
 	<input type="text" id="Num" name="seatNum" readonly="readonly">번<br>
 	<c:import url="/WEB-INF/views/keypad/timeKeypad.jsp"/>

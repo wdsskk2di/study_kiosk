@@ -30,19 +30,21 @@ public class TimeTableController {
 	}
  
 	@GetMapping(value="reserveTomorrow", produces = "application/json;charset=utf8")
-	public String reserveTomorrow(@RequestParam("seatNum") String seatNum, Model model) {		
+	public String reserveTomorrow(@RequestParam("seatNum") String seatNum, @RequestParam("title") String title, Model model) {		
 		model.addAttribute("seatNum", seatNum);
-		//스터디룸의 타임테이블
+		model.addAttribute("title", title);
+		//타임테이블
 		rs.reserveNextday(model);
 	
 		return "showTimeTable";
 	}
 	
 	@GetMapping(value="reserveToday", produces = "application/json;charset=utf8")
-	public String reserveToday(@RequestParam("seatNum") String seatNum, Model model) {
+	public String reserveToday(@RequestParam("seatNum") String seatNum, @RequestParam("title") String title, Model model) {
 		model.addAttribute("seatNum", seatNum);
+		model.addAttribute("title", title);
 
-		//스터디룸의 타임테이블
+		//타임테이블
 		rs.reserveToday(model);
 	
 		return "showTimeTable";

@@ -72,8 +72,8 @@
 	<c:forEach var="i" begin="0" end="4">
 		<td><b>${seatState[i].seatNum}</b><br>
 		<c:choose>
-			<c:when test="${seatState[i].nullChk == null}">사용가능<br>--</c:when>
-			<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].nullChk }</c:otherwise>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br> </c:otherwise>
 		</c:choose>
 		</td>
 	</c:forEach>
@@ -82,8 +82,8 @@
 	<c:forEach var="i" begin="5" end="9">
 		<td><b>${seatState[i].seatNum}</b><br>
 		<c:choose>
-			<c:when test="${seatState[i].nullChk == null}">사용가능<br>--</c:when>
-			<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].nullChk }</c:otherwise>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br> </c:otherwise>
 		</c:choose>
 		</td>
 	</c:forEach>
@@ -92,8 +92,8 @@
 	<c:forEach var="i" begin="10" end="14">
 		<td><b>${seatState[i].seatNum}</b><br>
 		<c:choose>
-			<c:when test="${seatState[i].nullChk == null}">사용가능<br>--</c:when>
-			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br>${seatState[i].nullChk }</c:otherwise>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br> </c:otherwise>
 		</c:choose>
 		</td>
 	</c:forEach>
@@ -102,8 +102,8 @@
 	<c:forEach var="i" begin="15" end="19">
 		<td><b>${seatState[i].seatNum}</b><br>
 		<c:choose>
-			<c:when test="${seatState[i].nullChk == null}">사용가능<br>--</c:when>
-			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br>${seatState[i].nullChk }</c:otherwise>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br> </c:otherwise>
 		</c:choose>
 		</td>
 	</c:forEach>
@@ -118,8 +118,8 @@
 	<c:forEach var="i" begin="0" end="2">
 		<td><b>${seatState[i].seatNum}</b><br>
 		<c:choose>
-			<c:when test="${seatState[i].nullChk == null}">사용가능<br>--</c:when>
-			<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].nullChk }</c:otherwise>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br> </c:otherwise>
 		</c:choose>
 		</td>
 	</c:forEach>

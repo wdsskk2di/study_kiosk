@@ -12,6 +12,9 @@ public class studyDTO {
 	private String endTime; //종료 시간
 	private String uniqueUser; //유저 결제코드값
     
+    ////예약, 스터디룸 예약날짜 insert위한 변수
+    private String reDate;
+    
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = title;}
 
@@ -40,6 +43,10 @@ public class studyDTO {
 	//유저 결제 코드값
 	public String getUniqueUser() { return uniqueUser;	}
 	public void setUniqueUser(String uniqueUser) {	this.uniqueUser = uniqueUser; }
+	
+    ////예약, 스터디룸 예약날짜 insert위한 변수
+	public String getReDate() {return reDate;}
+	public void setReDate(String reDate) {this.reDate = reDate;}
 }
 /*
 kiosk 테이블

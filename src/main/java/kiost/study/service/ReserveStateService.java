@@ -12,18 +12,28 @@ public class ReserveStateService {
 	public void reserveToday(Model model) {
 		Map<String, Object> map = model.asMap();
 		String seatNum = (String) map.get("seatNum");
+		String title = (String) map.get("title");
 		
 		ReserveDAO dao = new ReserveDAO();
-		model.addAttribute("reState", dao.checkReserveInfo(seatNum));
+		if(title.equals("r")) {
+			model.addAttribute("reState", dao.checkReserveInfo(seatNum));
+		}else {
+			model.addAttribute("reState", dao.checkStudyRoomInfo(seatNum));
+		}
 	}
 	
 	// 예약 다음날 좌석값
 	public void reserveNextday(Model model) {		
 		Map<String, Object> map = model.asMap();
 		String seatNum = (String) map.get("seatNum");
+		String title = (String) map.get("title");
  
 		ReserveDAO dao = new ReserveDAO();
-		model.addAttribute("reState", dao.checkTmrReserveInfo(seatNum));
+		if(title.equals("r")) {
+			model.addAttribute("reState", dao.checkTmrReserveInfo(seatNum));
+		}else {
+			model.addAttribute("reState", dao.checkTmrStudyRoomInfo(seatNum));
+		}
 	}
 
 

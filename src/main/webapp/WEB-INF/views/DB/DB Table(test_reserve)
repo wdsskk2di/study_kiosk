@@ -1,0 +1,148 @@
+DB Table
+------------test_reserve 테이블-------------------
+create table test_reserve(seatNum number not null, reDate varchar2(10), nullChk varchar2(8),
+p17 varchar2(8), P18 varchar2(8), P19 varchar2(8),P20 varchar2(8),
+P21 varchar2(8), P22 varchar2(8));
+
+==> 좌석번호, 날짜, nullChk(현재 좌석 사용 유무 체크 위한 속성), 17~22시
+
+	=============test_studyroom 테이블 추가==================
+	create table test_studyroom(seatNum number not null, reDate varchar2(10), nullChk varchar2(8),
+	p17 varchar2(8), P18 varchar2(8), P19 varchar2(8),P20 varchar2(8),
+	P21 varchar2(8), P22 varchar2(8));
+
+----------------DB에 내일 날짜 생성---------------------------------
+kioskController에서 reserve.jsp 접속시 페이지로 넘어가기 전에 DB에 내일 날짜 없으면 생성(예약 사용자가 처음 접속하는 경우에만 실행)
+
+UserSeatSelectService.java의 timeTable_Chk()메소드
+ -> ReserveDAO의 reserveTable_Date_Chk 메소드 실행
+ 
+ select COUNT(*) from test_reserve where redate=(to_char(sysdate+1, 'yyyy/MM/dd')); ==> 내일 날짜가 있는 지 확인 후 있다면(result = 1) 여기서 끝
+ 
+ ==> 없다면(result = 0) 생성.
+ BEGIN
+  FOR i IN 21..40 LOOP
+       insert into TEST_RESERVE VALUES(i, to_char(sysdate+1, 'yyyy/MM/dd'), null, null, null, null, null, null, null);
+      END LOOP;
+ END;	
+ 
+	 ========================스터디룸 추가 (studyRoomTable_Date_Chk 메소드)====================
+	  select COUNT(*) from test_studyroom where redate=(to_char(sysdate+1, 'yyyy/MM/dd')); ==> 내일 날짜가 있는 지 확인 후 있다면(result = 1) 여기서 끝
+	  
+	  BEGIN
+	  FOR i IN 41..43 LOOP
+	       insert into test_studyroom VALUES(i, to_char(sysdate+1, 'yyyy/MM/dd'), null, null, null, null, null, null, null);
+	      END LOOP;
+	  END;	
+
+---------------showSeatTable 연결---------------------------------
+reserve.jsp에 import될 showSeatTable.jsp
+kioskController에서  UserSeatSelectService.java의  seatRState()와 roomPState()가 이 기능을 한다
+ShowSeatTableDAO()의  reserveTable_Update()를 통해 TEST_RESERVE의 nullChk 속성값을 update한다.
+
+	String sql_notNull = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is not null";
+	String sql_Null = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is null";
+
+	conTime은 사용자가 예약 페이지에 접속한 시간. ex)17시 접속 -> p17의 값에 따라 nullChk의 값이 update.
+	=> 만일 p17에 사용자가 있다면 그 값이 nullChk에 들어가고, 사용자가 없다면 null 이므로 nullChk도 null값을 가진다.
+	showSeatTabel에서 예약과 스터디룸의 좌석 테이블은 좌석 번호들의 사용자 유무 체크를 nullChk의 값으로 하게 된다.
+		==> nullChk가 null이면 사용자가 없는 것이므로 '사용 가능' / 값이 들어가 있다면 '사용중' 이라고 표시하게 작성
+	
+		========스터디룸 추가(studyRoomTable_Update 메소드)===============
+		String sql_notNull = "update test_studyRoom set NULLCHK=p"+conTime+" where p"+conTime+" is not null";
+		String sql_Null = "update test_studyRoom set NULLCHK=p"+conTime+" where p"+conTime+" is null";
+	
+	
+그 후 ShowSeatTableDAO()의 seatRState()와 roomPState()가 각각 실행.
+
+	Date date = new Date();
+	SimpleDateFormat sdfTime = new SimpleDateFormat("HH");	
+	String sql = "select seatNum, nullChk, p"+sdfTime.format(date)+" from test_reserve where redate=(to_char(sysdate, 'yyyy/mm/dd')) order by seatNum asc";
+	
+	예약이냐 스터디룸이냐에 따라 where절의 seatNum 범위가 달라지는 것을 제외하면 sql문은 거의 동일하다.
+	접속한 시간으로 sdfTime.format(date)을 구해서 DB의 p로 시작하는 속성을 가져온다. -> ex) 17시 접속 -> p17 속성값 
+	DB에는 오늘, 내일 날짜가 모두 들어가 있으므로 reDate값을 오늘 날짜로 지정.
+	
+		========roomPState() 변경. (연결되는 테이블이 test_reserve -> test_studyroom으로 변경)===============
+		String sql = "select seatNum, nullChk, p"+sdfTime.format(date)+" from test_studyRoom where redate=(to_char(sysdate, 'yyyy/mm/dd')) order by seatNum asc";
+		
+		
+---------------------Ajax에 연결된 메소드 수정---------------------------------------
+	DB가 예약, 스터디룸으로 나뉨에 따라 ajax로 보내는 값에 title을 추가. 
+	TimeTableController -> ReserveStateService -> reserveToday메소드와  reserveNextday 메소드에서 title값에 따라
+	ReserveDAO에서 실행하는 메소드가 달라진다.		
+		
+
+---------------reserve_Payment의 form값을 DB로 연결---------------------------------
+studyDTO를 이용해 form값들을 들고와서 
+PaymentController의 reservePaymentChk 로 매핑.
+ ->ReserveInfoUpdate()로 넘어가서 dto에 저장된 사용자가 선택한 좌석 번호에 따라
+ ->예약좌석이면 reserveInfoUpdate(dto)이, 스터디룸이면 reserveInfoUpdate(dto)가 각각 실행된다.
+ 
+  *위의 두 메소드 안에서 dto로 받아온 endTime이 23 일 경우 DB에는 p23이라는 속서이 없어 오류가 난다.
+ 	조건문으로 endTime이 23일 경우 sql문이 다르게 들어가도록 조치함.
+
+
+---------------결제 목록에 예약과 스터디룸이 insert되게 추가하기------------------------------
+
+	사용자 결제 정보를 관리자가 볼 수 있게 reserve_timeSet 과 연결하기. reservePayUser 폴더에 reservePayUser.class 추가.
+	안의 메소드는 당일 결제에서 따온 메소드 5개와 새로만든 테이블(reserveTotalSeat)과 연결하는 메소드 1개로 구성.
+		기존 활용: dayPayUser / manageCopy / getUniqueUser / deleteBeforeInfo2 / daySelectUser
+		추가: reserveTotalSeat_Insert => todaytotalSeat_Info를 활용한 것
+	당일 결제에서 따온 메소드는 ReserveDAO 하단에 넣어둠.
+
+
+	----------예약자들용 reserveTotalSeat 테이블. 당일 좌석의 todaytotalSeat 테이블 역할.
+	create table reserveTotalSeat(
+	toDate varchar2(14), startTime varchar2(8),
+	endTime varchar2(8), seatNum number(2));
+	
+			=====================reserve_timeSet 테이블 생성===================
+			create table study_timeSet(
+			toDate varchar2(14) default (to_char(sysdate,'yyyy/mm/dd')),
+			reDate varchar2(14),	<-- 예약일 추가
+			startTime varchar2(8) default (to_char(sysdate,'hh24:mi:ss')),
+			endTime varchar2(8),
+			seatNum number(2) null,
+			timeNum number(2) not null,
+			TotalMoney number(10) not null,
+			PeopleNum number(1) default 1,
+			phoneNum number(8) not null,
+			uniqueUser number(12) default (to_char(sysdate,'yymmddhh24miss'))
+			);
+	
+		----순서----
+		STUDY_RESULTSET 테이블에 seatNum, timeNum, totalMoney, peopleNum, phoneNum, uniqueUser 를 삽입		
+			=================study_timeSet(당일 기반) -> reserve_timeSet 테이블로 변경.=====================
+			->  테이블에 STUDY_RESULTSET 테이블 값과 + 당일 날짜 + *예약일* +시작시간 +종료 시간을 삽입 --> 당일 좌석과 다르게 시간:00:00 단위로 기록되게끔 sql문을 수정함
+		-> STUDY_RESULTSET 테이블에서 uniqueUser 값 가져옴
+		-> STUDY_RESULTSET 테이블에 들어가 있는 값 삭제
+			-> reserve_timeSet 테이블에 들어온, 결제한 사용자의 정보 화면에 출력
+		-> reserveTotalSeat 테이블에 (toDate, startTime, endTime, seatNum) 저장
+	
+
+	
+-------------------------예약 확인 페이지---------------------------------------------
+ShowSeatTableDTO에 startTime과 timeNum 변수를 추가.
+ReserveChkController를 새로 만들어 예약 확인 매핑은 모두 여기를 통한다.
+	reserveChk -> 예약 확인 페이지를 보여주는 용
+	reserveChkList -> 사용자가 입력한 번호로 reserve_timeset 테이블에 값이 있는지 검색해서 reserveChkList 페이지로 넘어가는 용.
+		컨트롤러에서 ReserveChk.java -> ReserveChkDAO -> reserveChk_list메소드 실행
+		
+	reserveChkResult-> 사용자가 예약 목록을 자세히 보고 싶어 좌석 번호 클릭시 해당 좌석 번호로  reserve_timeset 테이블에서 자세한 값을 가져와서 reserveChkResult 페이지로 넘어가는 용.
+	
+			============예약 확인시 상세 내역 표시는 어떻게?========================
+			reserveChkResult를 할때 조건을 많이 달아서 서 다시 검색?
+				-> 유저 유니크 코드를 들고와서 좌석a태그에 달아주자. -->이걸로 reserve_timeSet을 검색해서 상세 내용 표시
+				컨트롤러에서 ReserveChkDetail.java -> ReserveChkDAO -> reserveChkDetail메소드 실행
+			
+
+
+
+
+
+
+
+
+
+

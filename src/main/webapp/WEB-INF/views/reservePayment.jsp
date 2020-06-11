@@ -40,6 +40,7 @@ request.setAttribute("Plist",Plist);
 %>
 
 $(document).ready( function() {
+
 	//사용 시간 선택
 	$("#TimeNum").click(function(){		
 		
@@ -84,7 +85,7 @@ $(document).ready( function() {
 });
 
 //form submit시 미입력값 있으면 전송 막기
-function formCheck() {
+function formCheck() {	
 	if($("#TotalMoney").val().length < 4){
 		alert("사용 시간 미선택");
 		return false;
@@ -103,14 +104,14 @@ function formCheck() {
 <div class="default">
 <h3 id="studyRoomTitle">스터디룸 예약</h3>
 
-<form action="paymentCheck" method="post" onsubmit="return formCheck()">
+<form action="reservePaymentChk" method="post" onsubmit="return formCheck()">
 	<h3>${seatNum }번 타임 테이블</h3>
 	<c:import url="/WEB-INF/views/showTimeTable.jsp"/>
-	
+
 	<table>
 	<tr>
 	<td><input type="hidden" name="title" value="${title }"></td>
-	<td><input type="hidden" name="startTime"> <input type="hidden" name="endTime">	<input type="hidden" name="reDate"></td>
+	<td><input type="hidden" name="startTime"> <input type="hidden" name="endTime"></td>
 	</tr>
 	
 	<tr>
@@ -128,16 +129,16 @@ function formCheck() {
 	<c:if test="${title == 's' }">
 		<c:choose>
 		<c:when test="${seatNum == 43 }">
-		사용 인원: <select> <c:forEach var="people" items="${Plist43 }"> <option id="selectPeople">${people }</option> </c:forEach> </select>
+		사용 인원: <select name="peopleNum"> <c:forEach var="people" items="${Plist43 }"> <option id="selectPeople">${people }</option> </c:forEach> </select>
 		</c:when>
 		<c:otherwise>
-		사용 인원: <select> <c:forEach var="people" items="${Plist }"> <option id="selectPeople">${people }</option> </c:forEach> </select>
+		사용 인원: <select name="peopleNum"> <c:forEach var="people" items="${Plist }"> <option id="selectPeople">${people }</option> </c:forEach> </select>
 		</c:otherwise>
 		</c:choose>
 	</c:if>
 	</td>
 	</tr>
-	
+
 	<tr><td>
 	결제 금액: <input type="text" id="TotalMoney" name="totalMoney" readonly="readonly"  class="inputBorder">
 	<td rowspan="2"><c:import url="/WEB-INF/views/keypad/phoneKeypad.jsp"/></td>

@@ -28,23 +28,29 @@ public class UserSeatSelectService{
 	
 	
 	
-	//예약, 스터디룸 내일 날짜 없을 시 insert
-	public void timeTable_Chk() {
+	//test_reserve 테이블 내일 날짜 없을 시 insert
+	public void reserveTable_Chk() {
 		ReserveDAO dao = new ReserveDAO();
-		dao.timeTable_Date_Chk();
+		dao.reserveTable_Date_Chk();
+	}
+	
+	////test_studyroom 테이블 내일 날짜 없을 시 insert
+	public void studyRoomTable_Chk() {
+		ReserveDAO dao = new ReserveDAO();
+		dao.studyRoomTable_Date_Chk();
 	}
 	
 	// 예약제 좌석 사용 확인
 	public void seatRState(Model model){
 		ShowSeatTableDAO dao = new ShowSeatTableDAO();
-		dao.reserve_seatTable_Update();
+		dao.reserveTable_Update();
 		model.addAttribute("seatState", dao.seatRState());
 	}
 	
 	// 스터디 룸 좌석 사용 확인
 	public void roomPState(Model model){
 		ShowSeatTableDAO dao = new ShowSeatTableDAO();
-		dao.reserve_seatTable_Update();
+		dao.studyRoomTable_Update();
 		model.addAttribute("seatState", dao.roomPState());
 	} 
 }
