@@ -30,7 +30,7 @@ public class ReservePay {
 	}
 
 	// #2 사용자 입력 값 : 좌석번호, 시간, 가격, 핸드폰을 DTO와 DB에 저장
-	public void dayRoomSelect(Model model) {
+	public void reserveSelect(Model model) {
 		map = model.asMap();
 		dto = (studyDTO) map.get("dto");
 		// model 값 받아오기 위해서 두줄 사용
@@ -42,7 +42,7 @@ public class ReservePay {
 		dao.manageCopy(dto);
 	}
 
-	public void RoomUser_unique(Model model) {
+	public void reserveUser_unique(Model model) {
 		map = model.asMap();
 		dto = (studyDTO) map.get("dto");
 
@@ -52,7 +52,7 @@ public class ReservePay {
 		dao.reserveInfoUpdate(dto, getUniqueUser);
 	}
 
-	public void RoomUser_final(Model model) {
+	public void reserveUser_final(Model model) {
 		map = model.asMap();
 		dto = (studyDTO) map.get("dto");
 
