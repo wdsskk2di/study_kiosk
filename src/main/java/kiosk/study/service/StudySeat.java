@@ -1,12 +1,16 @@
 package kiosk.study.service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
+import kiosk.study.dao.ReserveDAO;
+import kiosk.study.dao.ShowSeatTableDAO;
 import kiosk.study.dao.studySeatDAO;
+import kiosk.study.dto.ShowSeatTableDTO;
 import kiosk.study.dto.studyDTO;
 
 public class StudySeat {
@@ -14,40 +18,78 @@ public class StudySeat {
 
 	public Map<String, Object> map;
 	public studyDTO dto;
-	
+
 	// 당일 시간제 좌석 확인
 	public void seatEmptyCheck(Model model) {
 		map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		studySeatDAO dao = new studySeatDAO();
-		
-		if(dao.seatEmptyCheck(request.getParameter("seatNum"))==0) {
+
+		if (dao.seatEmptyCheck(request.getParameter("seatNum")) == 0) {
 			model.addAttribute("result", 0);
-		}else {
+		} else {
 			model.addAttribute("result", 1);
-		} 
+		}
 	}
+
 	// 스터디룸 당일 좌석 확인
 	public void seatEmptyCheckR(Model model) {
 		map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		studySeatDAO dao = new studySeatDAO();
-		
-		if(dao.seatEmptyCheckR(request.getParameter("seatNum"))==0) {
+
+		if (dao.seatEmptyCheckR(request.getParameter("seatNum")) == 0) {
 			model.addAttribute("result", 0);
-		}else {
+		} else {
 			model.addAttribute("result", 1);
-		} 
+		}
 	}
-	
+
 	public void UpdateSeatInfo() {
 		// 당일 좌석 좌석 확인 구현하기(받을 필요 없는 model값 삭제)
 		studySeatDAO dao = new studySeatDAO();
 		dao.updateSeatInfo();
 	}
+
 	public void UpdateSeatInfo2() {
 		// 스터디룸 당일 좌석 확인 구현하기
 		studySeatDAO dao = new studySeatDAO();
 		dao.updateSeatInfo2();
+	}
+
+	// ---------------------- UserSeatSelectService ------------------- //
+	
+	// 당일시간제 좌석 사용 확인
+	public void seatPState(Model model) {
+		ShowSeatTableDAO dao = new ShowSeatTableDAO();
+		ArrayList<ShowSeatTableDTO> listResult = dao.seatPState();
+		model.addAttribute("seatState", listResult);
+
+	}
+
+	// test_reserve 테이블 내일 날짜 없을 시 insert
+	public void reserveTable_Chk() {
+		ReserveDAO dao = new ReserveDAO();
+		dao.reserveTable_Date_Chk();
+	}
+
+	//// test_studyroom 테이블 내일 날짜 없을 시 insert
+	public void studyRoomTable_Chk() {
+		ReserveDAO dao = new ReserveDAO();
+		dao.studyRoomTable_Date_Chk();
+	}
+
+	// 예약제 좌석 사용 확인
+	public void seatRState(Model model) {
+		ShowSeatTableDAO dao = new ShowSeatTableDAO();
+		dao.reserveTable_Update();
+		model.addAttribute("seatState", dao.seatRState());
+	}
+
+	// 스터디 룸 좌석 사용 확인
+	public void roomPState(Model model) {
+		ShowSeatTableDAO dao = new ShowSeatTableDAO();
+		dao.studyRoomTable_Update();
+		model.addAttribute("seatState", dao.roomPState());
 	}
 }
