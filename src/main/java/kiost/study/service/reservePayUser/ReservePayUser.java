@@ -21,7 +21,7 @@ public class ReservePayUser implements KioskService{
 		ReserveDAO dao = new ReserveDAO();
 		StudyRoomDAO daoRo = new StudyRoomDAO();
 		
-		daoRo.reservePayUser(dto);		// 사용자 uniqueUser값 생성
+		daoRo.RoomPayUser(dto);		// 사용자 uniqueUser값 생성
 
 		daoRo.manageCopy(dto);			// 테이블 복사 + 시간 값 생성
 
@@ -33,7 +33,7 @@ public class ReservePayUser implements KioskService{
 			dao.reserveInfoUpdate(dto, getUniqueUser);
 		} else {
 			// 스터디룸 결제일 시
-			daoRo.studyInfoUpdate(dto, getUniqueUser);
+			daoRo.studyInfoUpdate(dto);
 		}
 		
 		daoRo.deleteBeforeInfo2();	//STUDY_RESULTSET의 내용 삭제
