@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.care.template.Constant;
 
-import kiost.study.service.reservePayUser.ReserveChk;
-import kiost.study.service.reservePayUser.ReserveChkDetail;
-import kiost.study.service_old.KioskService;
+import kiosk.study.service.CheckReserve;
+
 
 @Controller
 public class ReserveChkController {
 
-	private KioskService ks;
+	public CheckReserve cr = new CheckReserve();
 
 	public ReserveChkController() {
 		String config = "classpath:applicationJDBC.xml";
@@ -45,8 +44,7 @@ public class ReserveChkController {
 		
 		//사용자가 입력한 핸드폰 번호에 맞는 리스트 가져오기
 		model.addAttribute("phoneNum", request.getParameter("phoneNum"));
-		ks = new ReserveChk();
-		ks.execute(model);		
+		cr.ReserveChk(model);		
 
 		return "reserveJSP/reserveChkList";
 	}
@@ -59,8 +57,7 @@ public class ReserveChkController {
 		
 		//사용자가 클릭한 좌석 번호에 맞는 상세 정보 가져오기
 		model.addAttribute("uniqueUser", request.getParameter("uniqueUser"));
-		ks = new ReserveChkDetail();
-		ks.execute(model);	
+		cr.ReserveChkDetail(model);
 		
 		return "reserveJSP/reserveChkResult";
 	}
