@@ -14,19 +14,14 @@ import com.care.template.Constant;
 import kiosk.study.dto.studyDTO;
 import kiosk.study.service.DayRoomPay;
 import kiosk.study.service.DayStudyPay;
+import kiosk.study.service.ReservePay;
 import kiosk.study.service.StudySeat;
-import kiost.study.service.reservePayUser.ReservePayUser;
-import kiost.study.service_old.KioskService;
-import kiost.study.service_old.ReserveStateService;
-
 @Controller
 public class PaymentController {
 
-	private KioskService ks;
 	public DayStudyPay dsp = new DayStudyPay();
 	public DayRoomPay drp = new DayRoomPay();
-	
-	public ReserveStateService rs = new ReserveStateService();
+	public ReservePay rsp = new ReservePay();
 	public StudySeat ss = new StudySeat();
 	
 	public PaymentController() {
@@ -78,13 +73,9 @@ public class PaymentController {
 				//스터디룸의 타임테이블	
 				
 				model.addAttribute("seatNum", num);
-				
-				
-				// 스터디룸과 예약제 시간 나눔 변경 수정중  *****************************************************
-				rs.reserveToday(model);		
-
-				
-				
+					
+				// 스터디룸과 예약제 (당일)
+				drp.reserveToday(model);		
 
 				return "payment";	//결제 페이지로
 				
@@ -101,7 +92,7 @@ public class PaymentController {
 
 
 	
-	//당일 좌석, 당일 스터디룸 결제
+	//당일 좌석 결제
 	@PostMapping("paymentCheck")
 	public String paymenyCheck(Model model, studyDTO dto, HttpServletRequest request) {
 
@@ -119,22 +110,7 @@ public class PaymentController {
 
 			// 당일시간제 #4 사용자 결제창 확인용 + 좌석상태값 처리
 			dsp.dayUser_final(model);
-			
 		} 
-//		else if (title.equals("s")) {
-//			// 당일룸 #2 사용자 입력값 처리 function
-//			drp.dayRoomSelect(model);
-//			
-//			// 당일룸 #3 사용자 결제 고유값 생성 및 테이블 처리
-//			drp.RoomUser_unique(model);
-//			
-//			// 당일룸 #4 사용자 결제창 확인용 + 좌석상태값 처리
-//			drp.RoomUser_final(model);
-//			
-//		}
-		
-		// : 사용자 결제 내역 출력
-		
 		
 		return "default/paymentSuccess";
 	}
@@ -155,18 +131,25 @@ public class PaymentController {
 			model.addAttribute("seatNum", request.getParameter("seatNum"));
 			
 			if(title.equals("r") && num > 20 && num < 41){  //예약 좌석 + 입력값이21~40 사이		
-				//스터디룸의 타임테이블
-				rs.reserveToday(model);
+				
+				model.addAttribute("seatNum", num);
+				
+				// 예약의 타임테이블                   *********************************************************************************************  이녀석 오류
+				rsp.reserveToday(model);
+				rsp.reserveNextday(model);
 				
 				//좌석 번호
-				model.addAttribute("seatNum", num);
+				
 				return "reservePayment";	//결제 페이지로
 				
 			}else if(title.equals("s") && num > 40 && num < 44){ // 스터디룸 + 입력값이 41~43 사이						
-				//스터디룸의 타임테이블
-				rs.reserveToday(model);		
-
+				
 				model.addAttribute("seatNum", num);
+				
+				//스터디룸의 타임테이블
+				drp.reserveNextday(model);
+
+				
 				return "reservePayment";	//결제 페이지로
 				
 			}else {//입력된 좌석에 문제가 있는 경우
@@ -196,10 +179,7 @@ public class PaymentController {
 			drp.RoomUser_final(model);
 			
 		}
-//		else {
-//			ks = new ReservePayUser();
-//			ks.execute(model);
-//		}
+		// 예약제 추가 ***************************************
 				
 		return "default/paymentSuccess";
 	}
