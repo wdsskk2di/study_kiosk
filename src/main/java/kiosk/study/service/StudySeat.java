@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 
 import kiosk.study.dao.ReserveDAO;
 import kiosk.study.dao.ShowSeatTableDAO;
+import kiosk.study.dao.StudyRoomDAO;
 import kiosk.study.dao.studySeatDAO;
 import kiosk.study.dto.ShowSeatTableDTO;
 import kiosk.study.dto.studyDTO;
@@ -75,7 +76,7 @@ public class StudySeat {
 
 	//// test_studyroom 테이블 내일 날짜 없을 시 insert
 	public void studyRoomTable_Chk() {
-		ReserveDAO dao = new ReserveDAO();
+		StudyRoomDAO dao = new StudyRoomDAO();
 		dao.studyRoomTable_Date_Chk();
 	}
 
