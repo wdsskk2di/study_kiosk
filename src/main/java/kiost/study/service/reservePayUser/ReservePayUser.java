@@ -33,7 +33,7 @@ public class ReservePayUser implements KioskService{
 			dao.reserveInfoUpdate(dto, getUniqueUser);
 		} else {
 			// 스터디룸 결제일 시
-			daoRo.studyInfoUpdate(dto);
+			daoRo.studyInfoUpdate(dto, getUniqueUser);
 		}
 		
 		daoRo.deleteBeforeInfo2();	//STUDY_RESULTSET의 내용 삭제
