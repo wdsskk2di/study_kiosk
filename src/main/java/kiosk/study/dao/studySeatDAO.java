@@ -17,7 +17,7 @@ public class studySeatDAO {
 		// 결제된 study_timeSet의 값을 todaytotalSeat에 복사해오고 그 값을 showtodaystudyseat에 업데이트
 		String updateSeatInfo = "update SHOWTODAYSTUDYSEAT set showtodaystudyseat.endtime =( "
 				+ "SELECT  TS.endtime FROM( "
-				+ "SELECT ROW_NUMBER() OVER(PARTITION BY todaytotalSeat.seatNum ORDER BY todaytotalSeat.ENDTIME DESC ) AS RNUM, todaytotalSeat.* "
+				+ "SELECT ROW_NUMBER() OVER(PARTITION BY todaytotalSeat.seatNum ORDER BY todaytotalSeat.toDate DESC, todaytotalSeat.ENDTIME DESC ) AS RNUM, todaytotalSeat.* "
 				+ "FROM todaytotalSeat ) TS WHERE RNUM = 1 and todate=(to_char(sysdate,'yyyy/mm/dd')) and seatNum = showtodaystudyseat.seatnum)";
 
 		// 만일 showtodaystudyseat의 endtime<현재시간 : 사용종료 null로 변경
