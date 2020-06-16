@@ -56,7 +56,7 @@ public class StudyRoomDAO {
 
 //////////////////////////////////사용자 결제 정보 저장 -> 화면 출력	///////////////////////////////////////////
 //사용자 입력값 + 고유코드값 추가
-	public void reservePayUser(final studyDTO dto) {
+	public void RoomPayUser(final studyDTO dto) {
 		try {
 			String sql = "insert into STUDY_RESULTSET(seatNum, timeNum, totalMoney, peopleNum, phoneNum, uniqueUser)"
 					+ "values (" + dto.getSeatNum() + ", " + dto.getTimeNum() + ", " + dto.getTotalMoney() + ", "
@@ -70,94 +70,101 @@ public class StudyRoomDAO {
 		}
 	}
 
-	// study_resultSet >> RESERVE_TIMESET 으로 내용값 복사하고 시간 값 추가
+	// study_resultSet >> ROOM_TIMESET 으로 내용값 복사하고 시간 값 추가
 	public void manageCopy(final studyDTO dto) {
 		try {
-			String sql = "insert into RESERVE_TIMESET(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, toDate, reDate, startTime, endTime, PeopleNum) "
+			
+			String sql = "insert into ROOM_TIMESET(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, toDate, reDate, startTime, endTime, PeopleNum) "
 					+ "select seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, to_char(sysdate,'yyyy/mm/dd'), '"
 					+ dto.getReDate() + "', '" + dto.getStartTime() + ":00:00', '" + dto.getEndTime()
 					+ ":00:00', peopleNum " + "from study_resultSet";
 			template.update(sql);
-			System.out.println("RESERVE_TIMESET에 시간 복사 성공 #4");
+			System.out.println("ROOM_TIMESET에 시간 복사 성공 #4");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("RESERVE_TIMESET에 시간 복사 실패 #4");
+			System.out.println("ROOM_TIMESET에 시간 복사 실패 #4");
 		}
 	}
 
-	// study_resultSet에서 결제코드값 가져옴
-	public String getUniqueUser() {
-		try {
-			String sql = "select uniqueUser from study_resultSet";
-			System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 성공 #5");
-
-			return template.queryForObject(sql, String.class);
-
-		} catch (final DataAccessException e) {
-			e.printStackTrace();
-			System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 실패 #5");
-			return "-1";
-		}
-	}
-
-////스터디룸 타임 테이블에 update 
-	public void studyInfoUpdate(studyDTO dto, String getUniqueUser) {
+	////스터디룸 타임 테이블에 update 
+	public void studyInfoUpdate(studyDTO dto) {
 		int timeNum = dto.getTimeNum(); // 사용시간
 		int startTime = Integer.parseInt(dto.getStartTime()); // 시작 시간
 		int endTime = Integer.parseInt(dto.getEndTime()); // 종료 시간
 		String sql=null;
+		System.out.println(startTime+", "+endTime);
+		String exist = "exist";
 
 		try {
+			
 			if (timeNum == 1) {
-				if (endTime == 22) {
+				if (endTime == 23) {
 					sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + " where seatNum="
 							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
 				} else {
 					sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + ", p" + endTime + "="
-							+ getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='" + dto.getReDate()
+							+ dto.getEndTime() + "-1 where seatNum=" + dto.getSeatNum() + " and reDate='" + dto.getReDate()
 							+ "'";
 				}
 			} else if (timeNum == 2) {
-				if (endTime == 22) {
-					sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
-							+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
+				if (endTime == 23) {
+					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
+							+ "=" + exist + " where seatNum=" + dto.getSeatNum() + " and reDate='"
 							+ dto.getReDate() + "'";
 				} else {
-					sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
-							+ "=" + getUniqueUser + ", p" + endTime + "=" + getUniqueUser + " where seatNum="
+					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
+							+ "=" + exist + ", p" + endTime + "=" + dto.getEndTime() + "-1 where seatNum="
 							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
 				}
 			} else if (timeNum == 3) {
-				if (endTime == 22) {
-					sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
-							+ "=" + getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + " where seatNum="
+				if (endTime == 23) {
+					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
+							+ "=" + exist + ", p" + (startTime + 2) + "=" + exist + " where seatNum="
 							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
 				} else {
-					sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
-							+ "=" + getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + ", p" + endTime
-							+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
+					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
+							+ "=" + exist + ", p" + (startTime + 2) + "=" + exist + ", p" + endTime
+							+ "=" + dto.getEndTime() + "-1 where seatNum=" + dto.getSeatNum() + " and reDate='"
 							+ dto.getReDate() + "'";
 				}
 			} else if (timeNum == 4) {
-				if (endTime == 22) {
+				if (endTime == 23) {
 					sql = "update test_studyroom set p" + startTime + "=" + startTime + ", p" + (startTime + 1) + "="
-							+ getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + ", p" + (startTime + 3)
-							+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
+							+ exist + ", p" + (startTime + 2) + "=" + exist + ", p" + (startTime + 3)
+							+ "=" + exist + " where seatNum=" + dto.getSeatNum() + " and reDate='"
 							+ dto.getReDate() + "'";
 				} else {
 					sql = "update test_studyroom set p" + startTime + "=" + startTime + ", p" + (startTime + 1) + "="
-							+ getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + ", p" + (startTime + 3)
-							+ "=" + getUniqueUser + ", p" + endTime + "=" + getUniqueUser + " where seatNum="
+							+ exist + ", p" + (startTime + 2) + "=" + exist + ", p" + (startTime + 3)
+							+ "=" + exist + ", p" + endTime + "=" + dto.getEndTime() + "-1 where seatNum="
 							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
+					System.out.println(sql);
 				}
 			}
 
 			template.update(sql);
+			System.out.println("test_studyroom에 시간 존재값 입력 성공 #5");
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("test_studyroom에 시간 존재값 입력 실패 #5");
 		}
 	}
+	
+	// study_resultSet에서 결제코드값 가져옴
+		public String getUniqueUser() {
+			try {
+				String sql = "select uniqueUser from study_resultSet";
+				System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 성공 #6");
+
+				return template.queryForObject(sql, String.class);
+
+			} catch (final DataAccessException e) {
+				e.printStackTrace();
+				System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 실패 #6");
+				return "-1";
+			}
+		}
 
 	// STUDY_RESULTSET의 내용 삭제
 	public void deleteBeforeInfo2() {
@@ -174,7 +181,7 @@ public class StudyRoomDAO {
 	// 당일 시간제 결제 정보 DTO에 저장하고 화면에 출력하기
 	public studyDTO daySelectUser(String getUniqueUser) {
 		try {
-			String sql = "select * from RESERVE_TIMESET where uniqueUser=" + getUniqueUser;
+			String sql = "select * from ROOM_TIMESET where uniqueUser=" + getUniqueUser;
 			System.out.println("사용자의 결제 정보 DTO에 저장 성공 #8");
 			return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
 
@@ -184,4 +191,21 @@ public class StudyRoomDAO {
 			return null;
 		}
 	}
+	
+	//위치 몰라서 테스트 위해 개인 추가 . KioskController -> dayPayUser -> studyDAO ////중복값이 생기는 문제? --> 예약 좌석이니 속성에 reDate를 추가해야 할지도
+		public void RoomTotalSeat_Insert() {
+			try {
+				String sql ="insert into reserveTotalSeat(toDate, reDate, startTime, endTime, seatNum) " + 
+						"select toDate, reDate, startTime, endTime, seatNum " + 
+						"from ROOM_TIMESET " + 
+						"where ROOM_TIMESET.todate=(to_char(sysdate,'yyyy/mm/dd'))";
+						
+				template.update(sql);
+				System.out.println("테이블에 정보 반영 성공 #9");
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("테이블에 정보 반영 실패 #9");
+			}
+			
+		}
 }
