@@ -20,7 +20,7 @@ public class ReserveChkDAO {
 		
 		try {
 			String sql = "select reDate, startTime, seatNum, uniqueUser from RESERVE_TIMESET " + 
-					"	where PHONENUM='"+phoneNum+"' and todate>=(to_char(sysdate, 'yyyy/mm/dd')) or redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+					"	where PHONENUM='"+phoneNum+"' and (todate>=(to_char(sysdate, 'yyyy/mm/dd')) or redate=(to_char(sysdate, 'yyyy/mm/dd')))";
 			list = (ArrayList<ShowSeatTableDTO>)template.query(sql, new BeanPropertyRowMapper<ShowSeatTableDTO>(ShowSeatTableDTO.class));
 			
 		} catch (Exception e) {
