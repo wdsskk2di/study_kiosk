@@ -1,9 +1,9 @@
 package kiosk.study.manageService;
-
 import org.springframework.ui.Model;
 
 import kiosk.study.dao.ManagerDAO;
 import kiosk.study.dao.StudySeatDAO;
+
 
 public class SeatManager implements Manager {
 
@@ -26,4 +26,3 @@ public class SeatManager implements Manager {
 	}
 
 }
- 

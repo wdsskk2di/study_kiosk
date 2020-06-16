@@ -145,9 +145,9 @@ public class ManagerDAO {
 			return month_totalList;
 		}
 		
-		//예약, 스터디룸 월간 매출액
+		//예약 월간 매출액
 		public ArrayList<String> month_total_R() {
-			ArrayList<String> month_totalList = new ArrayList<String>();
+			ArrayList<String> month_totalListR = new ArrayList<String>();
 
 			try {
 				Date date = new Date();
@@ -155,60 +155,71 @@ public class ManagerDAO {
 				int monthLength = Integer.parseInt(sdfTime.format(date));
 
 				for(int i = 1; i<=monthLength ; i++) {
-					String sql =  "select sum(totalmoney) from RESERVE_TIMESET where todate like '2020/0"+i+"%'";
+					String sql =  "select sum(totalmoney) from RESERVE_TIMESET where todate like '2020/0"+i+"%' and seatNum<41";
 					String result = template.queryForObject(sql, String.class);
-
+					
 					if(result == null) {
-						month_totalList.add("0");
+						month_totalListR.add("0");
 					}else {
-						month_totalList.add(result);
+						month_totalListR.add(result);
 					}
 				}
 			}catch (Exception e) {e.printStackTrace(); System.out.println("월간 매출액 오류");}
-			return month_totalList;
+			return month_totalListR;
 		}
 		
-		//매출액 관리
-		/*
-		 * select sum(totalmoney) from RESERVE_TIMESET where todate like '2020/06%';	->6월 총매출
-		 * 
-			이번 달
-			select todate, totalmoney from RESERVE_TIMESET 
-			where todate BETWEEN TRUNC(SYSDATE, 'mm') and LAST_DAY(sysdate);
-			
-			지난 달
-			select todate, totalmoney from RESERVE_TIMESET 
-			where todate BETWEEN add_months(TRUNC(SYSDATE, 'mm'), -1) and add_months(LAST_DAY(sysdate), -1);
-			
-			특정 달
-			select todate, totalmoney from RESERVE_TIMESET 
-			where todate like '2020/06%';
-		 */
+		//예약, 스터디룸 월간 매출액
+		public ArrayList<String> month_total_S() {
+			ArrayList<String> month_totalListS = new ArrayList<String>();
+
+			try {
+				Date date = new Date();
+				SimpleDateFormat sdfTime = new SimpleDateFormat("MM");	
+				int monthLength = Integer.parseInt(sdfTime.format(date));
+
+				for(int i = 1; i<=monthLength ; i++) {
+					String sql =  "select sum(totalmoney) from RESERVE_TIMESET where todate like '2020/0"+i+"%' and seatNum>40";
+					String result = template.queryForObject(sql, String.class);
+
+					if(result == null) {
+						month_totalListS.add("0");
+					}else {
+						month_totalListS.add(result);
+					}
+
+				}
+			}catch (Exception e) {e.printStackTrace(); System.out.println("월간 매출액 오류");}
+			return month_totalListS;
+		}
 		
 		public ArrayList<ManagerDTO> day_total() {
 			ArrayList<ManagerDTO> list = new ArrayList<ManagerDTO>();
 			try {
 				Calendar oCalendar = Calendar.getInstance( );
 				int whatDay = (oCalendar.get(Calendar.DAY_OF_WEEK) - 2);
-
+				if(whatDay == -1) whatDay=6;
+				
 				String sql_day = "select sum(totalmoney) as dayTotal, count(*) as userTotal from study_timeset " + 
 						"where todate=(SELECT TRUNC(SYSDATE, 'IW')+"+whatDay+" as weekday FROM DUAL)";
 				
-				String sql_reserve = "select sum(totalmoney) as daytotal, count(*) as userTotal from reserve_timeset " + 
+				String sql_reserve = "select sum(totalmoney) as dayTotal, count(*) as userTotal from reserve_timeset " + 
 						"where todate=(SELECT TRUNC(SYSDATE, 'IW')+"+whatDay+" as weekday FROM DUAL) and seatNum<41";
 				
-				String sql_studyroom = "select sum(totalmoney) as daytotal, count(*) as userTotal from reserve_timeset " + 
+				String sql_studyroom = "select sum(totalmoney) as dayTotal, count(*) as userTotal from reserve_timeset " + 
 						"where todate=(SELECT TRUNC(SYSDATE, 'IW')+"+whatDay+" as weekday FROM DUAL) and seatNum>40";
 				
 				ManagerDTO result1 = template.queryForObject(sql_day, new BeanPropertyRowMapper<ManagerDTO>(ManagerDTO.class));
+				if(result1.getDayTotal() == null ) {result1.setDayTotal("0");}
 				list.add(result1);
 				
 				ManagerDTO result2 = template.queryForObject(sql_reserve, new BeanPropertyRowMapper<ManagerDTO>(ManagerDTO.class));
+				if(result2.getDayTotal() == null ) {result2.setDayTotal("0");}
 				list.add(result2);
 				
 				ManagerDTO result3 = template.queryForObject(sql_studyroom, new BeanPropertyRowMapper<ManagerDTO>(ManagerDTO.class));
+				if(result3.getDayTotal() == null ) {result3.setDayTotal("0");}
 				list.add(result3);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("일간 매출액 오류");
@@ -216,16 +227,6 @@ public class ManagerDAO {
 			
 			return list;
 		}
-		/*
-			select sum(totalmoney) as dayTotal from study_timeset 
-			where todate=(SELECT TRUNC(SYSDATE, 'IW') as weekday FROM DUAL);
-			
-			select sum(totalmoney) as daytotal from reserve_timeset 
-			where todate=(SELECT TRUNC(SYSDATE, 'IW') as weekday FROM DUAL) and seatNum<41;
-			
-			select sum(totalmoney) as daytotal from reserve_timeset 
-			where todate=(SELECT TRUNC(SYSDATE, 'IW') as weekday FROM DUAL) and seatNum>40;
-		 * */
 		
 ////////////////////////////예약 테이블
 		public ArrayList<ShowReserveDTO> search_reserveTable(String reDate) {
