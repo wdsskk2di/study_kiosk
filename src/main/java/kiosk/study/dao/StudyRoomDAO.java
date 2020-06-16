@@ -88,61 +88,36 @@ public class StudyRoomDAO {
 	}
 
 	////스터디룸 타임 테이블에 update 
-	public void studyInfoUpdate(studyDTO dto) {
+	public void studyInfoUpdate(studyDTO dto, String getUniqueUser) {
 		int timeNum = dto.getTimeNum(); // 사용시간
 		int startTime = Integer.parseInt(dto.getStartTime()); // 시작 시간
-		int endTime = Integer.parseInt(dto.getEndTime()); // 종료 시간
 		String sql=null;
-		System.out.println(startTime+", "+endTime);
-		String exist = "exist";
 
 		try {
 			
-			if (timeNum == 1) {
-				if (endTime == 23) {
-					sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + " where seatNum="
-							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
-				} else {
-					sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + ", p" + endTime + "="
-							+ dto.getEndTime() + "-1 where seatNum=" + dto.getSeatNum() + " and reDate='" + dto.getReDate()
-							+ "'";
-				}
-			} else if (timeNum == 2) {
-				if (endTime == 23) {
-					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
-							+ "=" + exist + " where seatNum=" + dto.getSeatNum() + " and reDate='"
-							+ dto.getReDate() + "'";
-				} else {
-					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
-							+ "=" + exist + ", p" + endTime + "=" + dto.getEndTime() + "-1 where seatNum="
-							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
-				}
-			} else if (timeNum == 3) {
-				if (endTime == 23) {
-					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
-							+ "=" + exist + ", p" + (startTime + 2) + "=" + exist + " where seatNum="
-							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
-				} else {
-					sql = "update test_studyroom set p" + startTime + "=" + exist + ", p" + (startTime + 1)
-							+ "=" + exist + ", p" + (startTime + 2) + "=" + exist + ", p" + endTime
-							+ "=" + dto.getEndTime() + "-1 where seatNum=" + dto.getSeatNum() + " and reDate='"
-							+ dto.getReDate() + "'";
-				}
-			} else if (timeNum == 4) {
-				if (endTime == 23) {
-					sql = "update test_studyroom set p" + startTime + "=" + startTime + ", p" + (startTime + 1) + "="
-							+ exist + ", p" + (startTime + 2) + "=" + exist + ", p" + (startTime + 3)
-							+ "=" + exist + " where seatNum=" + dto.getSeatNum() + " and reDate='"
-							+ dto.getReDate() + "'";
-				} else {
-					sql = "update test_studyroom set p" + startTime + "=" + startTime + ", p" + (startTime + 1) + "="
-							+ exist + ", p" + (startTime + 2) + "=" + exist + ", p" + (startTime + 3)
-							+ "=" + exist + ", p" + endTime + "=" + dto.getEndTime() + "-1 where seatNum="
-							+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
-					System.out.println(sql);
-				}
+			switch(timeNum) {
+			case 1:
+				sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + " where seatNum="
+						+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
+				break;
+			case 2:
+				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
+				+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
+				+ dto.getReDate() + "'";
+				break;
+			case 3:
+				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
+				+ "=" + getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + " where seatNum="
+				+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
+				break;
+			case 4:
+				sql = "update test_studyroom set p" + startTime + "=" + startTime + ", p" + (startTime + 1) + "="
+						+ getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + ", p" + (startTime + 3)
+						+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
+						+ dto.getReDate() + "'";
+				break;
 			}
-
+			
 			template.update(sql);
 			System.out.println("test_studyroom에 시간 존재값 입력 성공 #5");
 		} catch (Exception e) {
