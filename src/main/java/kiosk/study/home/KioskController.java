@@ -8,16 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.care.template.Constant;
 
-import kiosk.study.service.StudySeat;
-import kiost.study.service_old.KioskService;
-import kiost.study.service_old.UserSeatSelectService;
+import kiosk.study.service.ShowSeatService;
 
 @Controller
 public class KioskController {
 
-	public StudySeat ss = new StudySeat();
-	public UserSeatSelectService us = new UserSeatSelectService();
-
+	public ShowSeatService ss = new ShowSeatService();
+	
 	public KioskController() {
 		String config = "classpath:applicationJDBC.xml";
 		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext(config);
@@ -57,7 +54,7 @@ public class KioskController {
 
 		if(request.getParameter("title").equals("p")) {
 			//당일좌석 사용자 유무
-			us.seatPState(model);
+			ss.seatPState(model);
 		}
 
 		return "chooseSeatNum";
@@ -86,20 +83,20 @@ public class KioskController {
 		model.addAttribute("title", request.getParameter("title"));
 		
 		//test_reserve 테이블에 DB에 내일 날짜 없으면 insert(21~40번 좌석)
-		us.reserveTable_Chk();
+		ss.reserveTable_Chk();
 		
 		////test_studyRoom 테이블에 내일 날짜 없으면 insert(41~43번 좌석)
-		us.studyRoomTable_Chk();
+		ss.studyRoomTable_Chk();
 		
 		// 당일 좌석 좌석 확인 구현하기
 //		ss.UpdateSeatInfo();
 
 		if(request.getParameter("title").equals("r")) {
 			//예약좌석 사용자 유무
-			us.seatRState(model);
+			ss.seatRState(model);
 		}else {		
 			//스터디룸 사용자 유무
-			us.roomPState(model);
+			ss.roomPState(model);
 		}
 
 		return "reserve";
