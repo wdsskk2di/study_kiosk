@@ -1,13 +1,9 @@
 package kiosk.study.service;
 
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.ui.Model;
-
 import kiosk.study.dao.StudyRoomDAO;
-import kiosk.study.dto.ShowReserveDTO;
 import kiosk.study.dto.StudyDTO;
 
 public class DayRoomPayService {

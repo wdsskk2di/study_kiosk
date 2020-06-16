@@ -2,11 +2,8 @@ package kiosk.study.home;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -14,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.care.template.Constant;
-
 import kiosk.study.manageService.Manager;
 import kiosk.study.manageService.ManagerLogin;
 import kiosk.study.manageService.ReserveDetailManager;
