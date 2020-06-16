@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.care.template.Constant;
 
-import kiosk.study.service.DayRoomPay;
-import kiosk.study.service.ReservePay;
+import kiosk.study.service.DayRoomPayService;
+import kiosk.study.service.ReservePayService;
 
 @Controller
 public class TimeTableController {
 
-	public DayRoomPay dp = new DayRoomPay();
-	public ReservePay rp = new ReservePay();
+	public DayRoomPayService dp = new DayRoomPayService();
+	public ReservePayService rp = new ReservePayService();
 
 	public TimeTableController() {
 		String config = "classpath:applicationJDBC.xml";

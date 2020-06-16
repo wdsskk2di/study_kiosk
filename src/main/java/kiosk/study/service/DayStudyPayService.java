@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import kiosk.study.dao.studyDAO;
 import kiosk.study.dto.studyDTO;
 
-public class DayStudyPay {
+public class DayStudyPayService {
 	
 	public studyDAO dao = new studyDAO();
 	public Map<String, Object> map;

@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.care.template.Constant;
 
-import kiosk.study.service.CheckReserve;
+import kiosk.study.service.CheckReserveService;
 
 
 @Controller
 public class ReserveChkController {
 
-	public CheckReserve cr = new CheckReserve();
+	public CheckReserveService cr = new CheckReserveService();
 
 	public ReserveChkController() {
 		String config = "classpath:applicationJDBC.xml";

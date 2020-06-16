@@ -14,7 +14,7 @@ import kiosk.study.dao.studySeatDAO;
 import kiosk.study.dto.ShowSeatTableDTO;
 import kiosk.study.dto.studyDTO;
 
-public class StudySeat {
+public class ShowSeatService {
 	// 좌석은 sql문이 update되므로, pulblic으로 빼면 오류 발생하고 메소드를 부를때마다 새로 생성해 줘야 오류가 발생하지 않음.
 
 	public Map<String, Object> map;

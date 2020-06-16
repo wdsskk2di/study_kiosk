@@ -10,7 +10,7 @@ import kiosk.study.dao.ReserveDAO;
 import kiosk.study.dao.StudyRoomDAO;
 import kiosk.study.dto.studyDTO;
 
-public class ReservePay {
+public class ReservePayService {
 	// class파일만 생성함. 실질적으로 sql문 변경은 진행하지 않음; 구분을 위해 둠
 	public ReserveDAO dao = new ReserveDAO();
 	public Map<String, Object> map;

@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.care.template.Constant;
 
 import kiosk.study.dto.studyDTO;
-import kiosk.study.service.DayRoomPay;
-import kiosk.study.service.DayStudyPay;
-import kiosk.study.service.ReservePay;
-import kiosk.study.service.StudySeat;
+import kiosk.study.service.DayRoomPayService;
+import kiosk.study.service.DayStudyPayService;
+import kiosk.study.service.ReservePayService;
+import kiosk.study.service.ShowSeatService;
 @Controller
 public class PaymentController {
 
-	public DayStudyPay dsp = new DayStudyPay();
-	public DayRoomPay drp = new DayRoomPay();
-	public ReservePay rsp = new ReservePay();
-	public StudySeat ss = new StudySeat();
+	public DayStudyPayService dsp = new DayStudyPayService();
+	public DayRoomPayService drp = new DayRoomPayService();
+	public ReservePayService rsp = new ReservePayService();
+	public ShowSeatService ss = new ShowSeatService();
 	
 	public PaymentController() {
 		String config = "classpath:applicationJDBC.xml";
