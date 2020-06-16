@@ -108,6 +108,8 @@ public class PaymentController {
 		String title = request.getParameter("title");
 		model.addAttribute("dto", dto);
 
+		// PAYMENTCHECK 페이지는 당일 시간제만 이동됨.. ㅁㅊ
+		
 		if (title.equals("p")) {
 			// 당일시간제 #2 사용자 입력값 처리 function
 			dsp.daySeatSelect(model);
@@ -118,17 +120,18 @@ public class PaymentController {
 			// 당일시간제 #4 사용자 결제창 확인용 + 좌석상태값 처리
 			dsp.dayUser_final(model);
 			
-		} else if (title.equals("s")) {
-			// 당일룸 #2 사용자 입력값 처리 function
-			drp.dayRoomSelect(model);
-			
-			// 당일룸 #3 사용자 결제 고유값 생성 및 테이블 처리
-			drp.dayUser_unique(model);
-			
-			// 당일룸 #4 사용자 결제창 확인용 + 좌석상태값 처리
-			drp.dayUser_final(model);
-			
-		}
+		} 
+//		else if (title.equals("s")) {
+//			// 당일룸 #2 사용자 입력값 처리 function
+//			drp.dayRoomSelect(model);
+//			
+//			// 당일룸 #3 사용자 결제 고유값 생성 및 테이블 처리
+//			drp.RoomUser_unique(model);
+//			
+//			// 당일룸 #4 사용자 결제창 확인용 + 좌석상태값 처리
+//			drp.RoomUser_final(model);
+//			
+//		}
 		
 		// : 사용자 결제 내역 출력
 		
@@ -175,18 +178,28 @@ public class PaymentController {
 		}
 	}
 
-	//예약, 스터디룸 사용자가 결정한 값을 test_reserve DB 연결해서 사용 시간값 update
+	// 예약, 스터디룸 사용자가 결정한 값을 test_reserve DB 연결해서 사용 시간값 update
 	@PostMapping("reservePaymentChk")
-	public String reservePaymentChk(studyDTO dto, Model model) {
+	public String reservePaymentChk(studyDTO dto, Model model, HttpServletRequest request) {
+		
+		String title = request.getParameter("title");
 		model.addAttribute("dto", dto);
-		
-		//타임 테이블 저장 -> 결제 담당 ReservePayUser 안으로 옮김
-		//ks = new ReserveInfoUpdate();
-		//ks.execute(model);
-		
-		////ReservePayUser: 예약 사용자 결제 값 저장
-		ks = new ReservePayUser();
-		ks.execute(model);
+
+		if (title.equals("s")) {
+			// 당일룸 #2 사용자 입력값 처리 function
+			drp.dayRoomSelect(model);
+			
+			// 당일룸 #3 사용자 결제 고유값 생성 및 테이블 처리
+			drp.RoomUser_unique(model);
+			
+			// 당일룸 #4 사용자 결제창 확인용 + 좌석상태값 처리
+			drp.RoomUser_final(model);
+			
+		}
+//		else {
+//			ks = new ReservePayUser();
+//			ks.execute(model);
+//		}
 				
 		return "default/paymentSuccess";
 	}
