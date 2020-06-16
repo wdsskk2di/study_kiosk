@@ -13,7 +13,7 @@ import com.care.template.Constant;
 import kiosk.study.dto.ManagerDTO;
 import kiosk.study.dto.ShowReserveDTO;
 import kiosk.study.dto.ShowSeatTableDTO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 
 public class ManagerDAO {
 	private JdbcTemplate template;
@@ -96,11 +96,11 @@ public class ManagerDAO {
 		}
 		
 		//좌석 관리 페이지 상세 내용 - 당일
-		public studyDTO studyP_detail(String uniqueuser) {
+		public StudyDTO studyP_detail(String uniqueuser) {
 			try {
 				String sql = "select seatNum, todate, starttime, endtime, timenum, totalmoney, peoplenum, phonenum"
 						+ " from study_timeset where uniqueuser="+uniqueuser;
-				return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
+				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("유니크유저 이용한 당일 현재 이용자 상세 목록 조회 실패");
@@ -109,11 +109,11 @@ public class ManagerDAO {
 		}
 		
 		//좌석 관리 페이지 상세 내용 -예약, 스터디룸
-		public studyDTO studyRS_detail(String uniqueuser) {
+		public StudyDTO studyRS_detail(String uniqueuser) {
 			try {
 				String sql = "select seatNum, todate, redate, starttime, endtime, timenum, totalmoney, peoplenum, phonenum"
 						+ " from reserve_timeset where uniqueuser="+uniqueuser;
-				return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
+				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("유니크유저 이용한 예약,스터디룸 현재 이용자 상세 목록 조회 실패");
@@ -255,11 +255,11 @@ public class ManagerDAO {
 		}
 		
 		//예약 테이블 상세 내용
-		public studyDTO reserve_detail(String uniqueuser) {
+		public StudyDTO reserve_detail(String uniqueuser) {
 			try {
 				String sql = "select seatNum, todate, redate, starttime, endtime, timenum, totalmoney, peoplenum, phonenum"
 						+ " from reserve_timeset where uniqueuser="+uniqueuser;
-				return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
+				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("유니크유저 이용한 예약 상세 목록 조회 실패");

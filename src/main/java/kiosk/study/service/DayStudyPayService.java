@@ -6,14 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import kiosk.study.dao.studyDAO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dao.StudyDAO;
+import kiosk.study.dto.StudyDTO;
 
 public class DayStudyPayService {
 	
-	public studyDAO dao = new studyDAO();
+	public StudyDAO dao = new StudyDAO();
 	public Map<String, Object> map;
-	public studyDTO dto;
+	public StudyDTO dto;
 	
 	// #1 사용자 좌석 선택 : 통계치
 	public void daySeat_common(Model model) {
@@ -30,7 +30,7 @@ public class DayStudyPayService {
 	// #2 사용자 입력 값 : 좌석번호, 시간, 가격, 핸드폰을 DTO와 DB에 저장
 	public void daySeatSelect(Model model) {
 		map = model.asMap();
-		dto = (studyDTO)map.get("dto");
+		dto = (StudyDTO)map.get("dto");
 		// model 값 받아오기 위해서 두줄 사용
 
 		dao.daySeatSelect(dto);				
@@ -38,7 +38,7 @@ public class DayStudyPayService {
 	
 	public void dayUser_unique(Model model) {
 		map = model.asMap();
-		dto = (studyDTO)map.get("dto");
+		dto = (StudyDTO)map.get("dto");
 		
 		// #3 사용자 uniqueUser값 생성 및 이전 table삭제
 		dao.dayPayUser(dto);
@@ -51,7 +51,7 @@ public class DayStudyPayService {
 	}
 	public void dayUser_final(Model model) {
 		map = model.asMap();
-		dto = (studyDTO)map.get("dto");
+		dto = (StudyDTO)map.get("dto");
 		
 		// #6 결제된 코드 값 반환
 		final String getUniqueUser = dao.getUniqueUser();

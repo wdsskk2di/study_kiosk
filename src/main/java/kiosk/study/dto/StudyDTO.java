@@ -1,6 +1,6 @@
 package kiosk.study.dto;
 
-public class studyDTO {
+public class StudyDTO {
 	//당일 좌석 DB
 	private String title;	//카테고리. p=당일, r=예약, s=스터디룸
 	private int seatNum;	//좌석번호

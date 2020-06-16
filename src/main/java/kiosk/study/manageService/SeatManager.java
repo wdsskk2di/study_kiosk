@@ -3,13 +3,13 @@ package kiosk.study.manageService;
 import org.springframework.ui.Model;
 
 import kiosk.study.dao.ManagerDAO;
-import kiosk.study.dao.studySeatDAO;
+import kiosk.study.dao.StudySeatDAO;
 
 public class SeatManager implements Manager {
 
 	@Override
 	public void execute(Model model) {
-		studySeatDAO dao1 = new studySeatDAO();
+		StudySeatDAO dao1 = new StudySeatDAO();
 		ManagerDAO dao2 = new ManagerDAO();
 		
 		//당일 좌석 현재 사용자 테이블

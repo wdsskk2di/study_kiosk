@@ -8,13 +8,13 @@ import org.springframework.ui.Model;
 
 import kiosk.study.dao.StudyRoomDAO;
 import kiosk.study.dto.ShowReserveDTO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 
 public class DayRoomPayService {
 	// class파일만 생성함. 실질적으로 sql문 변경은 진행하지 않음; 구분을 위해 둠
 	public StudyRoomDAO dao = new StudyRoomDAO();
 	public Map<String, Object> map;
-	public studyDTO dto;
+	public StudyDTO dto;
 
 	// #1 사용자 좌석 선택 : 통계치
 	public void daySeatSelect(Model model) {
@@ -31,7 +31,7 @@ public class DayRoomPayService {
 	// #2 사용자 입력 값 : 좌석번호, 시간, 가격, 핸드폰을 DTO와 DB에 저장
 	public void dayRoomSelect(Model model) {
 		map = model.asMap();
-		dto = (studyDTO) map.get("dto");
+		dto = (StudyDTO) map.get("dto");
 		// model 값 받아오기 위해서 두줄 사용
 
 		// #1 사용자 uniqueUser값 생성
@@ -43,7 +43,7 @@ public class DayRoomPayService {
 
 	public void RoomUser_unique(Model model) {
 		map = model.asMap();
-		dto = (studyDTO) map.get("dto");
+		dto = (StudyDTO) map.get("dto");
 
 		final String getUniqueUser = dao.getUniqueUser();
 
@@ -53,7 +53,7 @@ public class DayRoomPayService {
 
 	public void RoomUser_final(Model model) {
 		map = model.asMap();
-		dto = (studyDTO) map.get("dto");
+		dto = (StudyDTO) map.get("dto");
 
 		// #4 결제된 코드 값 반환
 		final String getUniqueUser = dao.getUniqueUser();

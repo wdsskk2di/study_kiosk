@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import kiosk.study.dao.ReserveChkDAO;
 import kiosk.study.dao.ReserveDAO;
 import kiosk.study.dao.StudyRoomDAO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 
 public class CheckReserveService {
 	// class파일만 생성함. 실질적으로 sql문 변경은 진행하지 않음; 구분을 위해 둠

@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.care.template.Constant;
 
 import kiosk.study.dto.ShowReserveDTO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 
 public class ReserveDAO {
 	private JdbcTemplate template;
@@ -78,7 +78,7 @@ public class ReserveDAO {
 	
 //////////////////////////////////사용자 결제 정보 저장 -> 화면 출력	///////////////////////////////////////////
 //사용자 입력값 + 고유코드값 추가
-public void reservePayUser(final studyDTO dto) {
+public void reservePayUser(final StudyDTO dto) {
 try {
 
 String sql = "insert into STUDY_RESULTSET(seatNum, timeNum, totalMoney, peopleNum, phoneNum, uniqueUser)" +
@@ -95,7 +95,7 @@ System.out.println("reservePayUser(): 사용자 결제 내역 저장 실패");
 	
 	
 //study_resultSet >> RESERVE_TIMESET 으로 내용값 복사하고 시간 값 추가
-	public void manageCopy(final studyDTO dto) {
+	public void manageCopy(final StudyDTO dto) {
 		try {
 			String sql = "insert into RESERVE_TIMESET(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, toDate, reDate, startTime, endTime, PeopleNum) " + 
 					"select seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, to_char(sysdate,'yyyy/mm/dd'), '"+
@@ -116,7 +116,7 @@ System.out.println("reservePayUser(): 사용자 결제 내역 저장 실패");
 
 /////////////////////////////////////사용자가 사용하려는 시간대를 타임테이블에 update
 	//예약 타임 테이블에 update 
-	public void reserveInfoUpdate(studyDTO dto, String getUniqueUser) {
+	public void reserveInfoUpdate(StudyDTO dto, String getUniqueUser) {
 		int timeNum = dto.getTimeNum();	//사용시간
 		int startTime = Integer.parseInt(dto.getStartTime());	//시작 시간
 		String sql = null;
@@ -181,12 +181,12 @@ try {
 	}
 	
 	// 당일 시간제 결제 정보  DTO에 저장하고 화면에 출력하기
-	public studyDTO daySelectUser(String getUniqueUser) {
+	public StudyDTO daySelectUser(String getUniqueUser) {
 		try {
 			String sql = "select * from RESERVE_TIMESET where uniqueUser="+getUniqueUser;
 			// seatNum, startTime, endTime, timeNum, TotalMoney
 			System.out.println("사용자의 결제 정보 DTO에 저장 성공");
-			return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
+			return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 
 		}catch(final DataAccessException e) {
 			e.printStackTrace();

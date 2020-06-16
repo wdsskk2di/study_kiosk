@@ -11,11 +11,11 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import com.care.template.Constant;
 
 import kiosk.study.dto.ShowSeatTableDTO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 
-public class studyDAO {
+public class StudyDAO {
 	private JdbcTemplate template;
-	public studyDAO() {this.template = Constant.template;}
+	public StudyDAO() {this.template = Constant.template;}
 
 	//사용자가 좌석 선택 ( seatNum) db 저장 #1
 	public void statSeat(int seatNum) {
@@ -30,7 +30,7 @@ public class studyDAO {
 	}
 
 	//사용자가 시간선택, 시간가격값, 핸드폰번호  db저장 #2
-	public void daySeatSelect(final studyDTO dto) {
+	public void daySeatSelect(final StudyDTO dto) {
 		try {
 			String sql = "insert into kiosk_dayuser(seatNum, timeNum, TotalMoney, phoneNum) values (?,?,?,?)";
 
@@ -54,7 +54,7 @@ public class studyDAO {
 
 
 	//사용자 입력값 + 고유코드값 추가 #3
-	public void dayPayUser(final studyDTO dto) {
+	public void dayPayUser(final StudyDTO dto) {
 		try {
 			String copy = "insert into study_resultSet(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser)" +
 					"select seatNum, timeNum, TotalMoney, phoneNum, (to_char(sysdate,'yymmddhh24miss'))" +
@@ -81,7 +81,7 @@ public class studyDAO {
 	}
 	
 	// study_resultSet >> study_timeSet 으로 내용값 복사하고 시간 값 추가 #5
-	public void manageCopy(final studyDTO dto) {
+	public void manageCopy(final StudyDTO dto) {
 		try {
 			String sql = "insert into study_timeSet "
 					+ "select to_char(sysdate,'yyyy/mm/dd'),(to_char(sysdate,'hh24:mi:ss')),(to_char(sysdate+"+dto.getTimeNum()+"/24,'hh24:mi:ss')),"
@@ -124,12 +124,12 @@ public class studyDAO {
 	}
 	
 	// 당일 시간제 결제 정보  DTO에 저장하고 화면에 출력하기 #8
-	public studyDTO daySelectUser(String getUniqueUser) {
+	public StudyDTO daySelectUser(String getUniqueUser) {
 		try {
 			String sql = "select * from study_timeSet where uniqueUser="+getUniqueUser;
 			// seatNum, startTime, endTime, timeNum, TotalMoney
 			System.out.println("사용자의 결제 정보 DTO에 저장 성공 #8");			
-			return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
+			return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 			// return으로 저장하는 값이므로 따로 실행하는 것이 아니라 바로 model에 값 추가
 			
 		}catch(final DataAccessException e) {

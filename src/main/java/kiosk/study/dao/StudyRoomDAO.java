@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.care.template.Constant;
 
 import kiosk.study.dto.ShowReserveDTO;
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 
 public class StudyRoomDAO {
 	private JdbcTemplate template;
@@ -78,7 +78,7 @@ public class StudyRoomDAO {
 
 //////////////////////////////////사용자 결제 정보 저장 -> 화면 출력	///////////////////////////////////////////
 //사용자 입력값 + 고유코드값 추가
-	public void RoomPayUser(final studyDTO dto) {
+	public void RoomPayUser(final StudyDTO dto) {
 		try {
 			String sql = "insert into STUDY_RESULTSET(seatNum, timeNum, totalMoney, peopleNum, phoneNum, uniqueUser)"
 					+ "values (" + dto.getSeatNum() + ", " + dto.getTimeNum() + ", " + dto.getTotalMoney() + ", "
@@ -93,7 +93,7 @@ public class StudyRoomDAO {
 	}
 
 	// study_resultSet >> ROOM_TIMESET 으로 내용값 복사하고 시간 값 추가
-	public void manageCopy(final studyDTO dto) {
+	public void manageCopy(final StudyDTO dto) {
 		try {
 
 			String sql = "insert into ROOM_TIMESET(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, toDate, reDate, startTime, endTime, PeopleNum) "
@@ -110,7 +110,7 @@ public class StudyRoomDAO {
 	}
 
 	//// 스터디룸 타임 테이블에 update
-	public void studyInfoUpdate(studyDTO dto, String getUniqueUser) {
+	public void studyInfoUpdate(StudyDTO dto, String getUniqueUser) {
 		int timeNum = dto.getTimeNum(); // 사용시간
 		int startTime = Integer.parseInt(dto.getStartTime()); // 시작 시간
 		String sql = null;
@@ -176,11 +176,11 @@ public class StudyRoomDAO {
 	}
 
 	// 당일 시간제 결제 정보 DTO에 저장하고 화면에 출력하기
-	public studyDTO daySelectUser(String getUniqueUser) {
+	public StudyDTO daySelectUser(String getUniqueUser) {
 		try {
 			String sql = "select * from ROOM_TIMESET where uniqueUser=" + getUniqueUser;
 			System.out.println("사용자의 결제 정보 DTO에 저장 성공 #8");
-			return template.queryForObject(sql, new BeanPropertyRowMapper<studyDTO>(studyDTO.class));
+			return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 
 		} catch (final DataAccessException e) {
 			e.printStackTrace();

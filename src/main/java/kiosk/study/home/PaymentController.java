@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.care.template.Constant;
 
-import kiosk.study.dto.studyDTO;
+import kiosk.study.dto.StudyDTO;
 import kiosk.study.service.DayRoomPayService;
 import kiosk.study.service.DayStudyPayService;
 import kiosk.study.service.ReservePayService;
@@ -96,7 +96,7 @@ public class PaymentController {
 	
 	//당일 좌석 결제
 	@PostMapping("paymentCheck")
-	public String paymenyCheck(Model model, studyDTO dto, HttpServletRequest request) {
+	public String paymenyCheck(Model model, StudyDTO dto, HttpServletRequest request) {
 
 		String title = request.getParameter("title");
 		model.addAttribute("dto", dto);
@@ -168,7 +168,7 @@ public class PaymentController {
 
 	// 예약, 스터디룸 사용자가 결정한 값을 test_reserve DB 연결해서 사용 시간값 update
 	@PostMapping("reservePaymentChk")
-	public String reservePaymentChk(studyDTO dto, Model model, HttpServletRequest request) {
+	public String reservePaymentChk(StudyDTO dto, Model model, HttpServletRequest request) {
 		
 		String title = request.getParameter("title");
 		model.addAttribute("dto", dto);

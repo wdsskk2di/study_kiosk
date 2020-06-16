@@ -4,10 +4,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.care.template.Constant;
 
-public class studySeatDAO {
+public class StudySeatDAO {
 	private JdbcTemplate template;
 
-	public studySeatDAO() {
+	public StudySeatDAO() {
 		this.template = Constant.template;
 	}
 
