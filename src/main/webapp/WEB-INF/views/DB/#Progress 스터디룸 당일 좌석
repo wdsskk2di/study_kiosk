@@ -1,0 +1,74 @@
+
+*********************************** PaymentController ************************************
+
+	}else if(title.equals("s") && num > 40 && num < 44){ // 스터디룸 + 입력값이 41~43 사이				
+				//스터디룸의 타임테이블	
+				
+				model.addAttribute("seatNum", num);
+				
+				// 스터디룸과 예약제 시간 나눔 변경 수정중 
+				
+				rs.reserveToday(model);				// ************************************************** 여기
+
+				return "payment";	//결제 페이지로
+				
+
+*********************************** ReserveStateService ************************************
+
+	// 예약 당일 좌석값
+	public void reserveToday(Model model) {
+		Map<String, Object> map = model.asMap();
+		String seatNum = (String) map.get("seatNum");
+		String title = (String) map.get("title");
+		
+		ReserveDAO daoRs = new ReserveDAO();
+		StudyRoomDAO daoRo = new StudyRoomDAO();
+		
+		if(title.equals("r")) {
+			model.addAttribute("reState", daoRs.checkReserveInfo(seatNum));
+		}else {
+			// 변경사항 수정중 #2 : studyRoom 당일 좌석 예약 하는 경우 
+			System.out.println("studyRomm 당일 좌석 예약 #1");
+			
+			model.addAttribute("reState", daoRo.checkStudyRoomInfo(seatNum));
+			
+		}
+	}
+	
+	
+	
+	
+*********************************** StudyRoomDAO ************************************
+
+// 사용자가 선택한 자리 오늘 스터디룸 정보 확인
+	public ShowReserveDTO checkStudyRoomInfo(String seatNum) {
+		try {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+			String sql = "select * from test_studyroom where seatNum='" + seatNum + "' and reDate='" + sdf.format(date)+ "'";
+			System.out.println("StudyRoomDAO : 당일 스터디룸 좌석 예약 #2");
+			
+			return template.queryForObject(sql, new BeanPropertyRowMapper<ShowReserveDTO>(ShowReserveDTO.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("StudyRoomDAO: 오늘 날짜 타임 테이블 연결 실패 #2");
+			return null;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+*********************************** ShowSeatTableDAO ************************************
+
+public void studyRoomTable_Update() {  // 오류!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*********************************** ReserveStateService ************************************
+*********************************** ReserveStateService ************************************
+*********************************** ReserveStateService ************************************

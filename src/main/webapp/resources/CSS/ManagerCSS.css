@@ -64,7 +64,11 @@
 }
 
 /*좌석 관리 페이지*/
-.seatDiv{max-width: 800px; min-width: 780px; border: 1px solid #111;	margin-bottom: 20px;}
-.seatDiv table{min-width: 770px;}
-.seatDiv table td{text-align:center; border: 1px solid #111;}
-.seatDiv a{text-decoration: none;}
+.seatDiv{min-width: 780px;}
+.seatDiv table{min-width: 770px; margin-bottom: 50px;}
+.seatDiv table td{text-align:left; width:80px; border: 1px solid #005766; padding: 5px; line-height: 25px;}
+.seatDiv a{text-decoration: none; color:black; border-bottom: 1.5px solid black;}
+
+/*현재 좌석 상태 사용자 유무 CSS -> seatManage.jsp에서 쓰려고 만듦*/
+#useingTd{background-color: #005766; color: white;}
+#useingTd a{text-decoration: none; color: white; border-bottom: 1.5px solid white;}

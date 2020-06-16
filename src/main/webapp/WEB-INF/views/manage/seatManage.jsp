@@ -7,6 +7,15 @@
 <meta charset="UTF-8">
 <title>좌석 관리</title>
 <link rel="stylesheet" href="<c:url value="resources/CSS/ManagerCSS.css" />">
+<script type="text/javascript">
+function popOpen(code, title) {
+	url="detail_seat?uniqueuser="+code+"&title="+title;
+	name = "_blank";
+	specs="width=400, height=500, top=100, left=200, toolbar=no, menubar=no, resizable=no";
+	window.open(url, name, specs);
+	return false;
+}
+</script>
 </head>
 <body>
 <!-- Side navigation -->
@@ -37,70 +46,97 @@
 <div class="main">
 <c:choose>
 <c:when test="${loginResult == 'true' }">
-<h2 style="color: #225ea7;">좌석관리 페이지</h2>
+<h2 style="color: #225ea7;">좌석 관리 페이지</h2>
 <div class="seatDiv">
+
+
 <h3>>당일 좌석</h3>
 <table>
 <tr>
-<c:forEach var="i" begin="0" end="9">
-	<td><b>${seatState[i].seatNum}</b>번<br>
+<c:forEach var="i" begin="0" end="9">	
 	<c:choose>
-		<c:when test="${seatState[i].phoneNum == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용불가</span><br>${seatState[i].endTime }</c:otherwise>
-	</c:choose>
-	</td>
+		<c:when test="${seatP_State[i].endTime == null}">
+			<td><a href="#?seatNum='${seatP_State[i].seatNum}'"><b>${seatP_State[i].seatNum}</b>번</a>
+			<br>사용가능<br>--</td>
+		</c:when>
+		<c:otherwise>
+			<td id="useingTd"><a href="#" onclick='popOpen(${seatP_State[i].uniqueUser}, "p")'><b>${seatP_State[i].seatNum}</b>번</a>
+			<br>사용중<br>${seatP_State[i].endTime }</td>
+		</c:otherwise>
+	</c:choose>	
 </c:forEach>
 </tr>
 <tr>
 <c:forEach var="i" begin="10" end="19">
-	<td><b>${seatState[i].seatNum}</b>번<br>
 	<c:choose>
-		<c:when test="${seatState[i].phoneNum == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red;">사용불가</span><br>${seatState[i].endTime }</c:otherwise>
+		<c:when test="${seatP_State[i].endTime == null}">
+			<td><a href="#?seatNum='${seatP_State[i].seatNum}'"><b>${seatP_State[i].seatNum}</b>번</a>
+			<br>사용가능<br>--</td>
+		</c:when>
+		<c:otherwise>
+			<td id="useingTd"><a href="#" onclick='popOpen(${seatP_State[i].uniqueUser}, "p")'><b>${seatP_State[i].seatNum}</b>번</a>
+			<br>사용중<br>${seatP_State[i].endTime }</td>
+		</c:otherwise>
 	</c:choose>
-	</td>
 </c:forEach>
 </tr>
 </table>
 </div>
+
+
 
 <div class="seatDiv">
 <h3>>예약 좌석</h3>
 <table>
 <tr>
 <c:forEach var="i" begin="0" end="9">
-	<td><b>${seatState[i].seatNum}</b>번<br>
 	<c:choose>
-		<c:when test="${seatState[i].phoneNum == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용불가</span><br>${seatState[i].endTime }</c:otherwise>
+		<c:when test="${seatR_State[i].nullChk == null}">
+			<td><a href="#?seatNum='${seatR_State[i].seatNum}'"><b>${seatR_State[i].seatNum}</b>번</a>
+			<br>사용가능<br>--</td>
+		</c:when>
+		<c:otherwise>
+			<td id="useingTd"><a href="#" onclick='popOpen(${seatR_State[i].nullChk}, "r")'><b>${seatR_State[i].seatNum}</b>번</a>
+			<br>사용중<br>${seatR_State[i].endTime} 종료</td>
+		</c:otherwise>
 	</c:choose>
-	</td>
 </c:forEach>
 </tr>
 <tr>
-<c:forEach var="i" begin="10" end="19">
-	<td><b>${seatState[i].seatNum}</b>번<br>
+<c:forEach var="i" begin="10" end="19">	
 	<c:choose>
-		<c:when test="${seatState[i].phoneNum == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red;">사용불가</span><br>${seatState[i].endTime }</c:otherwise>
+		<c:when test="${seatR_State[i].nullChk == null}">
+			<td><a href="#?seatNum='${seatR_State[i].seatNum}'"><b>${seatR_State[i].seatNum}</b>번</a>
+			<br>사용가능<br>--</td>
+		</c:when>
+		<c:otherwise>
+			<td id="useingTd"><a href="#" onclick='popOpen(${seatR_State[i].nullChk}, "r")'><b>${seatR_State[i].seatNum}</b>번</a>
+			<br>사용중<br>${seatR_State[i].endTime} 종료</td>
+		</c:otherwise>
 	</c:choose>
-	</td>
 </c:forEach>
 </tr>
 </table>
 </div>
 
+
+
+
 <div class="seatDiv">
 <h3>>스터디룸</h3>
 <table>
 <tr>
-<c:forEach var="i" begin="0" end="2">
-	<td><a href="#?seatNum='${seatState[i].seatNum}'"><b>${seatState[i].seatNum}</b>번</a><br>
+<c:forEach var="i" begin="0" end="2">	
 	<c:choose>
-		<c:when test="${seatState[i].phoneNum == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용불가</span><br>${seatState[i].endTime }</c:otherwise>
+		<c:when test="${seatS_State[i].nullChk == null}">
+			<td style="width: 160px;"><a href="#?seatNum='${seatS_State[i].seatNum}'"><b>${seatS_State[i].seatNum}</b>번</a>
+			<br>사용가능<br>--</td>
+		</c:when>
+		<c:otherwise>
+			<td id="useingTd" style="width: 160px;"><a href="#" onclick='popOpen(${seatS_State[i].nullChk}, "s")'><b>${seatS_State[i].seatNum}</b>번</a>
+			<br>사용중<br>${seatS_State[i].endTime} 종료</td>
+		</c:otherwise>
 	</c:choose>
-	</td>
 </c:forEach>
 </tr>
 </table>

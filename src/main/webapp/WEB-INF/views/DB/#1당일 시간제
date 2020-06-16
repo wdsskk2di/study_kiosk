@@ -1,0 +1,86 @@
+DB TABLE *#1 당일 시간제
+
+
+-- TABLE 구현 --
+
+
+-- #1번째 TABLE --
+create table kiosk_day(
+toDate varchar2(14) default (to_char(sysdate,'yyyy/mm/dd')),
+toTime varchar2(8) default (to_char(sysdate,'hh24:mi:ss')),
+seatNum number(2) null
+);
+
+-- #2번째 TABLE --
+create table kiosk_dayuser(
+toDate varchar2(14) default (to_char(sysdate,'yyyy/mm/dd')),
+toTime varchar2(8) default (to_char(sysdate,'hh24:mi:ss')),
+seatNum number(2) null,
+timeNum number(2) not null,
+TotalMoney number(10) not null,
+phoneNum number(8) not null,
+);
+
+-- #3번째 TABLE --
+create table study_resultSet(
+seatNum number(2) null,
+timeNum number(2) not null,
+TotalMoney number(10) not null,
+PeopleNum number(1) default 1,
+phoneNum number(8) not null,
+uniqueUser varchar2(14) default (to_char(sysdate,'yymmddhh24miss'))
+);
+
+-- #4번째 TABLE --
+create table study_timeSet(
+toDate varchar2(14) default (to_char(sysdate,'yyyy/mm/dd')),
+startTime varchar2(8) default (to_char(sysdate,'hh24:mi:ss')),
+endTime varchar2(8),
+seatNum number(2) null,
+timeNum number(2) not null,
+TotalMoney number(10) not null,
+PeopleNum number(1) default 1,
+phoneNum number(8) not null,
+uniqueUser varchar2(14) default (to_char(sysdate,'yymmddhh24miss'))
+);
+
+
+
+---------------------------------------------------------------------------
+
+
+-- SQL문 흐름 순서 --
+
+--1-- kiosk_day : 사용자 좌석 선택 ( 통계용 ) >> [관리자] 사용자의 좌석 선호도
+
+
+--2-- kiosk_dayuser : 사용자 입력값(좌석번호, 시간선택, 결제금액, 핸드폰번호)
+
+
+--3-- study_resultSet : 사용자 정보 + 결제키값 부여 저장
+
+
+--4-- study_timeSet : RESULTSET의 정보 + (시작시간, 종료시간) 부여
+
+
+--5-- study_resultSet에 kiosk_dayuser 테이블 복사 + 결제키값 저장 : [환불] 및  [관리자] 로 넘어가는 TABLE
+
+insert into study_resultSet(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser)
+select seatNum, timeNum, TotalMoney, phoneNum, (to_char(sysdate,'yymmddhh24miss'))
+from kiosk_dayuser;
+
+
+--6-- (startTime, endTime, PeopleNum) 값 TIMESET에 집어넣어줌
+
+insert into study_timeSet(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, toDate, startTime, endTime, PeopleNum)
+select seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, to_char(sysdate,'yyyy/mm/dd'),to_char(sysdate,'hh24:mi:ss'),to_char(sysdate+timeNum/24,'hh24:mi:ss'), 1
+from study_resultSet;
+
+
+
+
+
+
+
+
+

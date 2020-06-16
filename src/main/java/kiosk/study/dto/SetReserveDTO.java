@@ -9,6 +9,7 @@ public class SetReserveDTO {
 	private int peopleNum;	//스터디룸 사용 인원
 	private int totalMoney;	//총 금액
 	private int phoneNum; //핸드폰 번호
+	// 예약 변경
 	
 	public int getSeatNum() {return seatNum;}
 	public void setSeatNum(int seatNum) {this.seatNum = seatNum;}

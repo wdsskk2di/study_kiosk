@@ -1,0 +1,62 @@
+DB TABLE *#3 당일 스터디룸 좌석
+
+
+-- TABLE 구현 --
+
+
+-- #1번째 TABLE --
+create table todaytotalSeat(
+toDate varchar2(14),
+startTime varchar2(8),
+endTime varchar2(8),
+seatNum number(2)
+);
+
+-- #2번째 TABLE --
+create table showtodayroomSeat(
+seatNum number(2),
+endTime varchar2(8) null,
+primary key(seatNum)
+);
+
+
+-- #2번째 TABLE DATA VALUES -- 
+insert into showtodayroomSeat(seatNum) values(41);
+insert into showtodayroomSeat(seatNum) values(42);
+insert into showtodayroomSeat(seatNum) values(43);
+
+
+
+-- 참조 TABLE --
+
+-- :: STUDY_TIMESET --
+
+
+---------------------------------------------------------------------------
+
+
+-- SQL문 흐름 순서 --
+
+--1-- 오늘 날짜의 study_timeSet의 값을 todaytotalSeat 에 복사
+
+insert into todaytotalSeat(toDate, startTime, endTime, seatNum)
+select toDate, startTime, endTime, seatNum 
+from study_timeSet 
+where study_timeset.todate=(to_char(sysdate,'yyyy/mm/dd'));
+
+
+--2-- todaytotalSeat의 값을 showtodayroomSeat에 최신 시간만  UPDATE
+
+update showtodayroomSeat set showtodayroomSeat.endtime =( SELECT  TS.endtime FROM(
+SELECT ROW_NUMBER() OVER(PARTITION BY todaytotalSeat.seatNum ORDER BY todaytotalSeat.ENDTIME DESC ) AS RNUM, todaytotalSeat.*
+FROM todaytotalSeat ) TS WHERE RNUM = 1 and todate=(to_char(sysdate,'yyyy/mm/dd')) and seatNum = showtodayroomSeat.seatnum);
+
+
+--3-- 현재시간 > ENDTIME은 NULL로 돌리는 SQL문
+
+update showtodayroomSeat set endtime = null where endtime<to_char(sysdate,'hh24:mi:ss')
+
+
+--4-- showtodayroomSeat의 내용을 LIST로 뽑아 JSP에 처리
+
+select seatNum, endTime from showtodayroomSeat order by seatNum asc

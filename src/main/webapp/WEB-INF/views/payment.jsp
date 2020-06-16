@@ -60,27 +60,28 @@ $( document ).ready( function() {
 		//타임 테이블 날짜 조정 버튼(내일, 오늘 일정 보여주는 버튼) 안보이게 하기
 		$('.nextBtnSty').attr('style','visibility:hidden');
 		//타임 테이블 버튼 값 변경
-		$('[name="startBtn"]').html("사용 가능");
-		
-		//span값 변경
-		for(var i = 8; i<25;i++){
-			$('#'+i).text("사용 불가");
-		}
+		$('[name="startBtn"]').html("사용 가능");	
 			
 		//현재 시간보다 전 시간대면 클릭 못하게 막기
 		var todate = new Date();
 		var chkTime = todate.getHours(); //현재 시간
 
 		//현재 시간보다 전 시간대면 클릭 못하게 막기
-		for(var i = 8; i<23; i++){ //오전 8시부터 오후 23시 사이에
+		for(var i = 17; i<23; i++){ //오전 8시부터 오후 23시 사이에
 			if(i<Number(chkTime)){ //사용자가 접속한 시간이 해당 시간보다 뒤면.. ex.8시 아무때나 접속 시 7시 버튼은 비활성화(미사용 좌석 기준)
 				$('#'+i).html("사용 불가");
 				$('#'+i).attr("disabled",true);
 			}else{	//사용자가 접속한 시간이 해당 시간보다 앞이거나 같으면.. ex.8시 아무때나 접속 시 8시와 9시 버튼은 활성화(미사용 좌석 기준)
-				$('#'+i).html("사용 가능");
-				$('#'+i).attr("disabled",false);
+				if($('#'+i).html() == "예약 불가"){
+					$('#'+i).html("사용 불가");
+				}else{
+					//$('#'+i).html("사용 가능");
+					//$('#'+i).attr("disabled",false);
+				}
+
 			}
-		}	
+		}
+		
 	}
 	
 });
@@ -145,7 +146,7 @@ function formCheck() {
 </c:when>
 
 <c:otherwise>
-<script type="text/javascript">location.href="chooseSeatNum?title=${title}"</script>
+<script type="text/javascript">location.href="toDaySeat?title=${title}"</script>
 </c:otherwise>
 
 </c:choose>

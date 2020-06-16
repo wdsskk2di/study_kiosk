@@ -18,69 +18,113 @@
 <div class="left_Div_in">
 
 <c:choose>
+
+
 <c:when test="${title == 'p' }">
-<table>
-<tr>
-<c:forEach var="i" begin="0" end="4">
-	<td><b>${seatState[i].seatNum}</b><br>
-	<c:choose>
-		<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].endTime }</c:otherwise>
-	</c:choose>
-	</td>
-</c:forEach>
-</tr>
-<tr>
-<c:forEach var="i" begin="5" end="9">
-	<td><b>${seatState[i].seatNum}</b><br>
-	<c:choose>
-		<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red;">사용중</span><br>${seatState[i].endTime }</c:otherwise>
-	</c:choose>
-	</td>
-</c:forEach>
-</tr>
-</table>
+	<table>
+	<tr>
+	<c:forEach var="i" begin="0" end="4">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].endTime }</c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	<tr>
+	<c:forEach var="i" begin="5" end="9">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].endTime }</c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	<tr>
+	<c:forEach var="i" begin="10" end="14">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
+			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br>${seatState[i].endTime }</c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	<tr>
+	<c:forEach var="i" begin="15" end="19">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
+			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br>${seatState[i].endTime }</c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	</table>
 </c:when>
+
 
 <c:when test="${title == 'r' }">
-<table>
-<tr>
-<c:forEach var="i" begin="0" end="4">
-	<td><b>${seatState[i].seatNum}</b><br>
-	<c:choose>
-		<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].endTime }</c:otherwise>
-	</c:choose>
-	</td>
-</c:forEach>
-</tr>
-<tr>
-<c:forEach var="i" begin="5" end="9">
-	<td><b>${seatState[i].seatNum}</b><br>
-	<c:choose>
-		<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].endTime }</c:otherwise>
-	</c:choose>
-	</td>
-</c:forEach>
-</tr>
-</table>
+	<table>
+	<tr>
+	<c:forEach var="i" begin="0" end="4">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br> </c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	<tr>
+	<c:forEach var="i" begin="5" end="9">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br> </c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	<tr>
+	<c:forEach var="i" begin="10" end="14">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br> </c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	<tr>
+	<c:forEach var="i" begin="15" end="19">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red;">사용중</span><br> </c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	</table>
 </c:when>
 
+
 <c:otherwise>
-<table>
-<tr>
-<c:forEach var="i" begin="0" end="2">
-	<td><b>${seatState[i].seatNum}</b><br>
-	<c:choose>
-		<c:when test="${seatState[i].endTime == null}">사용가능<br>--</c:when>
-		<c:otherwise><span style="color:white; background-color: red">사용중</span><br>${seatState[i].endTime }</c:otherwise>
-	</c:choose>
-	</td>
-</c:forEach>
-</tr>
-</table>
+	<table>
+	<tr>
+	<c:forEach var="i" begin="0" end="2">
+		<td><b>${seatState[i].seatNum}</b><br>
+		<c:choose>
+			<c:when test="${seatState[i].nullChk == null}">사용가능<br> </c:when>
+			<c:otherwise><span style="color:white; background-color: red">사용중</span><br> </c:otherwise>
+		</c:choose>
+		</td>
+	</c:forEach>
+	</tr>
+	</table>
 </c:otherwise>
 </c:choose>
 

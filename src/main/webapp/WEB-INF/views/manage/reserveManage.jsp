@@ -6,7 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>예약 관리</title>
+
 <link rel="stylesheet" href="<c:url value="resources/CSS/ManagerCSS.css" />">
+<script>
+ 
+
+</script>
+
 </head>
 <body>
 <!-- Side navigation -->
@@ -36,8 +42,24 @@
 <!-- main  -->
 <div class="main">
 <c:choose>
-<c:when test="${loginResult == 'true' }">예약관리 페이지</c:when>
-<c:otherwise>해당 기능은 로그인을 해야 사용 가능합니다.<br>로그인을 해주세요.</c:otherwise>
+<c:when test="${loginResult == 'true' }">
+<h2 style="color: #225ea7; display: block; font-size: 1.5em; font-weight: bold;
+ margin-block-start: 0.83em; margin-block-end: 0.83em;">예약 관리 페이지</h2>
+ <div>
+ <h3>> 예약 좌석</h3>
+ <c:import url="/WEB-INF/views/manage/showReserveTable.jsp"/>
+ </div>
+ 
+ 
+ <div>
+ <h3>> 스터디룸</h3>
+ <c:import url="/WEB-INF/views/manage/showStudyRTable.jsp"/>
+ </div>
+</c:when>
+
+<c:otherwise>
+해당 기능은 로그인을 해야 사용 가능합니다.<br>로그인을 해주세요.
+</c:otherwise>
 </c:choose>
 </div>
 

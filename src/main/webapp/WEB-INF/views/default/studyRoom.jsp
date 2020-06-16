@@ -17,7 +17,7 @@
 <c:import url="/WEB-INF/views/default/header.jsp"/>
 
 <div class="div_studyRoom">
-<button id="choiceBtn1" onclick="location.href='chooseSeatNum?title=s'">당일 사용</button>
+<button id="choiceBtn1" onclick="location.href='toDayRoom?title=s'">당일 사용</button>			<!--  chooseSeatNum -->
 <button id="choiceBtn2" onclick="location.href='reserve?title=s'">자리 예약</button>
 </div>
 

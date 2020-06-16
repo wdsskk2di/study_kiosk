@@ -56,7 +56,10 @@ function get_tomoDate() {
 			$.ajax({
 				url:"reserveTomorrow",
 				type: "GET",	//방식
-				data: {seatNum: '${seatNum }'}				
+				data: {
+					seatNum: '${seatNum }',
+					title: '${title}'
+				}				
 			})
 			.done(function(data){	//성공시				
 				$("#timeTable1").html(data);
@@ -76,9 +79,12 @@ function get_toDate() {
 	try {
 		if(reDate != dateT){
 			$.ajax({
-				url:"reserveToday",
+				url:"reserveDate",
 				type: "GET",	//방식
-				data: {seatNum: '${seatNum }'}
+				data: {
+					seatNum: '${seatNum }',
+					title: '${title}'
+				}
 			})
 			.done(function(data){	//성공시
 				$("#timeTable1").html(data);
@@ -96,7 +102,10 @@ function get_toDate() {
 <body>
 <div>
 	<table border="1" id="timeTable1" style="margin:0 auto;">
-		<caption id="reserveDate"><button type="button" class="nextBtnSty" onclick="get_toDate()">&lt;</button>${reState.reDate }<button type="button" class="nextBtnSty" onclick="get_tomoDate()">&gt;</button></caption>
+		<caption id="reserveDate"><button type="button" class="nextBtnSty" onclick="get_toDate()">&lt;</button>
+		<input type="hidden" name="reDate" value="${reState.reDate }">${reState.reDate }
+		<button type="button" class="nextBtnSty" onclick="get_tomoDate()">&gt;</button></caption>
+		
 		<tr> <th>17:00</th><th>18:00</th><th>19:00</th><th>20:00</th><th>21:00</th><th>22:00</th> </tr>
 		<tr>
 			<th><c:choose>
@@ -107,19 +116,19 @@ function get_toDate() {
 				<c:when test="${reState.p18 == null }"><button id="18" name="startBtn" type="button" value="18">예약 가능</button></c:when>
 				<c:otherwise><span id="18">예약 불가</span></c:otherwise>
 			</c:choose></th>
-						<th><c:choose>
+			<th><c:choose>
 				<c:when test="${reState.p19 == null }"><button id="19" name="startBtn" type="button" value="19">예약 가능</button></c:when>
 				<c:otherwise><span id="19">예약 불가</span></c:otherwise>
 			</c:choose></th>
-						<th><c:choose>
+			<th><c:choose>
 				<c:when test="${reState.p20 == null }"><button id="20" name="startBtn" type="button" value="20">예약 가능</button></c:when>
 				<c:otherwise><span id="20">예약 불가</span></c:otherwise>
 			</c:choose></th>
-						<th><c:choose>
+			<th><c:choose>
 				<c:when test="${reState.p21 == null }"><button id="21" name="startBtn" type="button" value="21">예약 가능</button></c:when>
 				<c:otherwise><span id="21">예약 불가</span></c:otherwise>
 			</c:choose></th>
-						<th><c:choose>
+			<th><c:choose>
 				<c:when test="${reState.p22 == null }"><button id="22" name="startBtn" type="button" value="22">예약 가능</button></c:when>
 				<c:otherwise><span id="22">예약 불가</span></c:otherwise>
 			</c:choose></th>

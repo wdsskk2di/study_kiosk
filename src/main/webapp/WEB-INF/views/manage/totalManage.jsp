@@ -36,10 +36,16 @@
 <!-- main  -->
 <div class="main">
 <c:choose>
-<c:when test="${loginResult == 'true' }">매출관리 페이지</c:when>
+
+<c:when test="${loginResult == 'true' }">
+<h2 style="color: #225ea7; display: block; font-size: 1.5em; font-weight: bold;
+ margin-block-start: 0.90em; margin-block-end: 0.83em; margin-inline-start: 10px;">매출 관리 페이지</h2>
+<p><c:import url="/WEB-INF/views/graph/day_graph.jsp"/></p>
+<p><c:import url="/WEB-INF/views/graph/month_graph.jsp"/></p>
+</c:when>
+
 <c:otherwise>해당 기능은 로그인을 해야 사용 가능합니다.<br>로그인을 해주세요.</c:otherwise>
 </c:choose>
 </div>
-
 </body>
 </html>

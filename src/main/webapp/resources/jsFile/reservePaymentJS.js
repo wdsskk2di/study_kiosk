@@ -27,7 +27,7 @@ $(document).on('click','[name="startBtn"]',function(e){
 		var threeTime = Number(startTime)+3;
 		var fourTime = Number(startTime)+4;
 
-		if($('#'+oneTime).text() == "예약 불가" || oneTime>lastUseTime){
+		if($('#'+oneTime).text() == "예약 불가" || $('#'+oneTime).text() == "사용 불가" || oneTime>lastUseTime){
 			itemTime = [1];
 			$("#TimeNum").empty();
 			
@@ -35,7 +35,7 @@ $(document).on('click','[name="startBtn"]',function(e){
                 var option = $("<option>"+itemTime[count]+"</option>");
                 $('#TimeNum').append(option);
             }
-		}else if($('#'+twoTime).text() == "예약 불가" || twoTime>lastUseTime){
+		}else if($('#'+twoTime).text() == "예약 불가" || $('#'+twoTime).text() == "사용 불가" || twoTime>lastUseTime){
 			itemTime = [1,2];
 			$("#TimeNum").empty();
 			
@@ -43,7 +43,7 @@ $(document).on('click','[name="startBtn"]',function(e){
                 var option = $("<option>"+itemTime[count]+"</option>");
                 $('#TimeNum').append(option);
             }
-		}else if($('#'+threeTime).text() == "예약 불가" || threeTime>lastUseTime){
+		}else if($('#'+threeTime).text() == "예약 불가" || $('#'+threeTime).text() == "사용 불가" || threeTime>lastUseTime){
 			itemTime = [1,2,3];
 			$("#TimeNum").empty();
 			
@@ -51,7 +51,7 @@ $(document).on('click','[name="startBtn"]',function(e){
                 var option = $("<option>"+itemTime[count]+"</option>");
                 $('#TimeNum').append(option);
             }
-		}else if($('#'+fourTime).text() == "예약 불가" || fourTime>lastUseTime){
+		}else if($('#'+fourTime).text() == "예약 불가" || $('#'+fourTime).text() == "사용 불가" || fourTime>lastUseTime){
 			itemTime = [1,2,3,4];
 			$("#TimeNum").empty();
 			
