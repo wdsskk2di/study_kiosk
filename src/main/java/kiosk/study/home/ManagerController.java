@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.care.template.Constant;
 
-import kiost.study.service.manageService.Manager;
-import kiost.study.service.manageService.ManagerLogin;
-import kiost.study.service.manageService.ReserveDetailManager;
-import kiost.study.service.manageService.ReserveManager;
-import kiost.study.service.manageService.SeatDetailManager;
-import kiost.study.service.manageService.SeatManager;
-import kiost.study.service.manageService.TotalManager;
+import kiosk.study.manageService.Manager;
+import kiosk.study.manageService.ManagerLogin;
+import kiosk.study.manageService.ReserveDetailManager;
+import kiosk.study.manageService.ReserveManager;
+import kiosk.study.manageService.SeatDetailManager;
+import kiosk.study.manageService.SeatManager;
+import kiosk.study.manageService.TotalManager;
 
 @Controller
 public class ManagerController {

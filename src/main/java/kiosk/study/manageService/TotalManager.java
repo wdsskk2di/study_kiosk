@@ -1,4 +1,4 @@
-package kiost.study.service.manageService;
+package kiosk.study.manageService;
 
 import java.util.ArrayList;
 
