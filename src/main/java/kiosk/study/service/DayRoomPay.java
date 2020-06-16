@@ -46,8 +46,10 @@ public class DayRoomPay {
 		map = model.asMap();
 		dto = (studyDTO)map.get("dto");
 		
+		final String getUniqueUser = dao.getUniqueUser();
+		
 		// #3 스터디룸 타임 테이블에 update 
-		dao.studyInfoUpdate(dto);
+		dao.studyInfoUpdate(dto, getUniqueUser);
 	}
 	public void RoomUser_final(Model model) {
 		map = model.asMap();
