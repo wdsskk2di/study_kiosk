@@ -25,7 +25,6 @@ public class StudyRoomDAO {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
 			String sql = "select * from test_studyroom where seatNum='" + seatNum + "' and reDate='" + sdf.format(date)+ "'";
-			System.out.println("StudyRoomDAO : 당일 스터디룸 좌석 예약 #2");
 			
 			return template.queryForObject(sql, new BeanPropertyRowMapper<ShowReserveDTO>(ShowReserveDTO.class));
 		} catch (Exception e) {
