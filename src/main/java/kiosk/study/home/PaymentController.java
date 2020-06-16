@@ -72,10 +72,12 @@ public class PaymentController {
 			}else if(title.equals("s") && num > 40 && num < 44){ // 스터디룸 + 입력값이 41~43 사이				
 				//스터디룸의 타임테이블	
 				
-				model.addAttribute("seatNum", num);
+				
 					
 				// 스터디룸과 예약제 (당일)
 				drp.reserveToday(model);		
+				
+				model.addAttribute("seatNum", num);
 
 				return "payment";	//결제 페이지로
 				
@@ -132,22 +134,25 @@ public class PaymentController {
 			
 			if(title.equals("r") && num > 20 && num < 41){  //예약 좌석 + 입력값이21~40 사이		
 				
-				model.addAttribute("seatNum", num);
+				
 				
 				// 예약의 타임테이블                   *********************************************************************************************  이녀석 오류
-				rsp.reserveToday(model);
+				rsp.reserveDate(model);
 				rsp.reserveNextday(model);
 				
 				//좌석 번호
+				model.addAttribute("seatNum", num);
 				
 				return "reservePayment";	//결제 페이지로
 				
 			}else if(title.equals("s") && num > 40 && num < 44){ // 스터디룸 + 입력값이 41~43 사이						
 				
-				model.addAttribute("seatNum", num);
+				
 				
 				//스터디룸의 타임테이블
 				drp.reserveNextday(model);
+				
+				model.addAttribute("seatNum", num);
 
 				
 				return "reservePayment";	//결제 페이지로

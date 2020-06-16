@@ -45,15 +45,15 @@ public class TimeTableController {
 		return "showTimeTable";
 	}
 
-	@GetMapping(value = "reserveToday", produces = "application/json;charset=utf8")
-	public String reserveToday(@RequestParam("seatNum") String seatNum, @RequestParam("title") String title,
+	@GetMapping(value = "reserveDate", produces = "application/json;charset=utf8")
+	public String reserveDate(@RequestParam("seatNum") String seatNum, @RequestParam("title") String title,
 			Model model) {
 		model.addAttribute("seatNum", seatNum);
 		model.addAttribute("title", title);
 
 		// 타임 테이블
 		if (title.equals("r")) {
-			rp.reserveToday(model);
+			rp.reserveDate(model);
 		} else {
 			dp.reserveToday(model);
 		}
