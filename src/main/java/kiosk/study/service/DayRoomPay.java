@@ -6,68 +6,68 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import kiosk.study.dao.studyDAO;
+import kiosk.study.dao.StudyRoomDAO;
+import kiosk.study.dto.ShowReserveDTO;
 import kiosk.study.dto.studyDTO;
 
 public class DayRoomPay {
 	// class파일만 생성함. 실질적으로 sql문 변경은 진행하지 않음; 구분을 위해 둠
-	public studyDAO dao = new studyDAO();
+	public StudyRoomDAO dao = new StudyRoomDAO();
 	public Map<String, Object> map;
 	public studyDTO dto;
 
 	// #1 사용자 좌석 선택 : 통계치
-
-	public void dayRoomSelect(Model model) {
+	public void daySeatSelect(Model model) {
 		map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest)map.get("request");
 		// model 값 받아오기 위해서 두줄 사용
 
-		int seatNum = Integer.parseInt(request.getParameter("seatNum"));
+		String seatNum = request.getParameter("seatNum");
  
 		// 좌석 선택 값을 DB에 저장
-		dao.statSeat(seatNum);
+		dao.checkStudyRoomInfo(seatNum);
 	}
 	
+	
 	// #2 사용자 입력 값 : 좌석번호, 시간, 가격, 핸드폰을 DTO와 DB에 저장
-	public void daySeatSelect(Model model) {
+	public void dayRoomSelect(Model model) {
 		map = model.asMap();
 		dto = (studyDTO)map.get("dto");
 		// model 값 받아오기 위해서 두줄 사용
-
-		dao.daySeatSelect(dto);				
-	}
-	
-	public void dayUser_unique(Model model) {
-		map = model.asMap();
-		dto = (studyDTO)map.get("dto");
 		
-		// #3 사용자 uniqueUser값 생성 및 이전 table삭제
-		dao.dayPayUser(dto);
+		// #1 사용자 uniqueUser값 생성
+		dao.RoomPayUser(dto);	
 		
-		// #4 사용자 1차 입력란 삭제 완료
-		dao.deleteBeforeInfo();
-		
-		// #5 시간설정값 추가 및 Study_timeSet 으로 값을 넘겨줌
+		// #2 테이블 복사 + 시간 값 생성
 		dao.manageCopy(dto);
 	}
-	public void dayUser_final(Model model) {
+	
+	public void RoomUser_unique(Model model) {
 		map = model.asMap();
 		dto = (studyDTO)map.get("dto");
 		
-		// #6 결제된 코드 값 반환
-		final String getUniqueUser = dao.getUniqueUser();
-		System.out.println("#6 결제된 코드 값 : "+getUniqueUser);
+		// #3 스터디룸 타임 테이블에 update 
+		dao.studyInfoUpdate(dto);
+	}
+	public void RoomUser_final(Model model) {
+		map = model.asMap();
+		dto = (studyDTO)map.get("dto");
 		
-		// #7 study_resultSet 값 삭제 
+		// #4 결제된 코드 값 반환
+		final String getUniqueUser = dao.getUniqueUser();
+		
+		// #5 study_resultSet 값 삭제 
 		dao.deleteBeforeInfo2();
 		
-		// #8 DTO에 사용자에게 보여줄 값들 삽입
+		// #6 DTO에 사용자에게 보여줄 값들 삽입
 		model.addAttribute("dto",dao.daySelectUser(getUniqueUser));
 		
-		// #9 좌석 정보를 위해 값 집어넣어줌
-		dao.todaytotalSeat_Insert();
+		// #7 좌석 정보를 위해 값 집어넣어줌
+		dao.RoomTotalSeat_Insert();
 	}
 
+	
+	
 	
 	
 	
