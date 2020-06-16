@@ -176,15 +176,25 @@ public class PaymentController {
 		if (title.equals("s")) {
 			// 당일룸 #2 사용자 입력값 처리 function
 			drp.dayRoomSelect(model);
-			
+
 			// 당일룸 #3 사용자 결제 고유값 생성 및 테이블 처리
 			drp.RoomUser_unique(model);
-			
+
 			// 당일룸 #4 사용자 결제창 확인용 + 좌석상태값 처리
 			drp.RoomUser_final(model);
-			
+
 		}
-		// 예약제 추가 ***************************************
+		// 예약제 추가
+		if (title.equals("r")) {
+			// 예약제 #2 사용자 입력값 처리 function
+			rsp.reserveSelect(model);
+
+			// 예약제 #3 사용자 결제 고유값 생성 및 테이블 처리
+			rsp.reserveUser_unique(model);
+
+			// 예약제 #4 사용자 결제창 확인용 + 좌석상태값 처리
+			rsp.reserveUser_final(model);
+		}
 				
 		return "default/paymentSuccess";
 	}
