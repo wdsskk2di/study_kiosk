@@ -16,16 +16,39 @@ import kiosk.study.dto.studyDTO;
 
 public class StudyRoomDAO {
 	private JdbcTemplate template;
-	public StudyRoomDAO() {this.template = Constant.template;}
-	
+
+	public StudyRoomDAO() {
+		this.template = Constant.template;
+	}
+
+	//test_studyroom에 내일날짜 없을 시 insert하는 sql문
+	public void studyRoomTable_Date_Chk() {
+		try {
+			String sql = "select COUNT(*) from test_studyroom where redate=(to_char(sysdate+1, 'yyyy/MM/dd'))";
+			int result = template.queryForObject(sql, Integer.class);
+
+			if (result == 0) {
+				sql = "BEGIN\n" + "  FOR i IN 41..43 LOOP\n"
+						+ "       insert into test_studyroom VALUES(i, to_char(sysdate+1, 'yyyy/MM/dd'), null, null, null, null, null, null, null);\n"
+						+ "      END LOOP;\n" + "END;";
+				template.update(sql);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("ReserveDAO: 스터디룸 테이블 내일 날짜 생성 실패");
+		}
+
+	}
+
 	// 사용자가 선택한 자리 오늘 스터디룸 정보 확인
 	public ShowReserveDTO checkStudyRoomInfo(String seatNum) {
 		try {
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-			String sql = "select * from test_studyroom where seatNum='" + seatNum + "' and reDate='" + sdf.format(date)+ "'";
-			
+			String sql = "select * from test_studyroom where seatNum='" + seatNum + "' and reDate='" + sdf.format(date)
+					+ "'";
+
 			return template.queryForObject(sql, new BeanPropertyRowMapper<ShowReserveDTO>(ShowReserveDTO.class));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +95,7 @@ public class StudyRoomDAO {
 	// study_resultSet >> ROOM_TIMESET 으로 내용값 복사하고 시간 값 추가
 	public void manageCopy(final studyDTO dto) {
 		try {
-			
+
 			String sql = "insert into ROOM_TIMESET(seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, toDate, reDate, startTime, endTime, PeopleNum) "
 					+ "select seatNum, timeNum, TotalMoney, phoneNum, uniqueUser, to_char(sysdate,'yyyy/mm/dd'), '"
 					+ dto.getReDate() + "', '" + dto.getStartTime() + ":00:00', '" + dto.getEndTime()
@@ -86,37 +109,37 @@ public class StudyRoomDAO {
 		}
 	}
 
-	////스터디룸 타임 테이블에 update 
+	//// 스터디룸 타임 테이블에 update
 	public void studyInfoUpdate(studyDTO dto, String getUniqueUser) {
 		int timeNum = dto.getTimeNum(); // 사용시간
 		int startTime = Integer.parseInt(dto.getStartTime()); // 시작 시간
-		String sql=null;
+		String sql = null;
 
 		try {
-			
-			switch(timeNum) {
+
+			switch (timeNum) {
 			case 1:
 				sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + " where seatNum="
 						+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
 				break;
 			case 2:
-				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
-				+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
-				+ dto.getReDate() + "'";
+				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1) + "="
+						+ getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='" + dto.getReDate()
+						+ "'";
 				break;
 			case 3:
-				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1)
-				+ "=" + getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + " where seatNum="
-				+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
+				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + ", p" + (startTime + 1) + "="
+						+ getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + " where seatNum="
+						+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
 				break;
 			case 4:
 				sql = "update test_studyroom set p" + startTime + "=" + startTime + ", p" + (startTime + 1) + "="
-						+ getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + ", p" + (startTime + 3)
-						+ "=" + getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='"
-						+ dto.getReDate() + "'";
+						+ getUniqueUser + ", p" + (startTime + 2) + "=" + getUniqueUser + ", p" + (startTime + 3) + "="
+						+ getUniqueUser + " where seatNum=" + dto.getSeatNum() + " and reDate='" + dto.getReDate()
+						+ "'";
 				break;
 			}
-			
+
 			template.update(sql);
 			System.out.println("test_studyroom에 시간 존재값 입력 성공 #5");
 		} catch (Exception e) {
@@ -124,21 +147,21 @@ public class StudyRoomDAO {
 			System.out.println("test_studyroom에 시간 존재값 입력 실패 #5");
 		}
 	}
-	
+
 	// study_resultSet에서 결제코드값 가져옴
-		public String getUniqueUser() {
-			try {
-				String sql = "select uniqueUser from study_resultSet";
-				System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 성공 #6");
+	public String getUniqueUser() {
+		try {
+			String sql = "select uniqueUser from study_resultSet";
+			System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 성공 #6");
 
-				return template.queryForObject(sql, String.class);
+			return template.queryForObject(sql, String.class);
 
-			} catch (final DataAccessException e) {
-				e.printStackTrace();
-				System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 실패 #6");
-				return "-1";
-			}
+		} catch (final DataAccessException e) {
+			e.printStackTrace();
+			System.out.println("STUDY_RESULTSET에 uniqueUser값 추출 실패 #6");
+			return "-1";
 		}
+	}
 
 	// STUDY_RESULTSET의 내용 삭제
 	public void deleteBeforeInfo2() {
@@ -151,7 +174,7 @@ public class StudyRoomDAO {
 			System.out.println("STUDY_RESULTSET내용 삭제 실패 #7");
 		}
 	}
-	
+
 	// 당일 시간제 결제 정보 DTO에 저장하고 화면에 출력하기
 	public studyDTO daySelectUser(String getUniqueUser) {
 		try {
@@ -165,21 +188,21 @@ public class StudyRoomDAO {
 			return null;
 		}
 	}
-	
-	//위치 몰라서 테스트 위해 개인 추가 . KioskController -> dayPayUser -> studyDAO ////중복값이 생기는 문제? --> 예약 좌석이니 속성에 reDate를 추가해야 할지도
-		public void RoomTotalSeat_Insert() {
-			try {
-				String sql ="insert into reserveTotalSeat(toDate, reDate, startTime, endTime, seatNum) " + 
-						"select toDate, reDate, startTime, endTime, seatNum " + 
-						"from ROOM_TIMESET " + 
-						"where ROOM_TIMESET.todate=(to_char(sysdate,'yyyy/mm/dd'))";
-						
-				template.update(sql);
-				System.out.println("테이블에 정보 반영 성공 #9");
-			}catch(Exception e) {
-				e.printStackTrace();
-				System.out.println("테이블에 정보 반영 실패 #9");
-			}
-			
+
+	// 위치 몰라서 테스트 위해 개인 추가 . KioskController -> dayPayUser -> studyDAO ////중복값이 생기는
+	// 문제? --> 예약 좌석이니 속성에 reDate를 추가해야 할지도
+	public void RoomTotalSeat_Insert() {
+		try {
+			String sql = "insert into reserveTotalSeat(toDate, reDate, startTime, endTime, seatNum) "
+					+ "select toDate, reDate, startTime, endTime, seatNum " + "from ROOM_TIMESET "
+					+ "where ROOM_TIMESET.todate=(to_char(sysdate,'yyyy/mm/dd'))";
+
+			template.update(sql);
+			System.out.println("테이블에 정보 반영 성공 #9");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("테이블에 정보 반영 실패 #9");
 		}
+
+	}
 }
