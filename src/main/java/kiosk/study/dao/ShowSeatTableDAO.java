@@ -39,7 +39,7 @@ public class ShowSeatTableDAO {
 	}
 	
 	//스터디룸 사용자에게 스터디룸 좌석들의 현재 좌석 사용 상태 보여주기 위한 update
-	public void studyRoomTable_Update() {
+	public void studyRoomTable_Update() {  // 오류!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		Date date = new Date();
 		SimpleDateFormat sdfTime = new SimpleDateFormat("HH");	
 		String conTime = sdfTime.format(date);
