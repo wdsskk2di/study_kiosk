@@ -115,7 +115,9 @@ public class ManagerController {
 	@RequestMapping("detail_reserve")
 	public String detail_reserve(HttpServletRequest request, Model model) {
 		String uniqueuser = request.getParameter("uniqueuser");
+		String seatNum = request.getParameter("seatNum");
 		model.addAttribute("uniqueuser", uniqueuser);
+		model.addAttribute("seatNum", seatNum);
 
 		mn = new ReserveDetailManager();
 		mn.execute(model);

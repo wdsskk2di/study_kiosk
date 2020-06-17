@@ -67,9 +67,8 @@ public class DayRoomPayService {
 	// 스터디룸 좌석값
 	public void reserveToday(Model model) {
 		Map<String, Object> map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		String seatNum = request.getParameter("seatNum");
-		String title = request.getParameter("title");
+		String seatNum = (String) map.get("seatNum");
+		String title = (String) map.get("title");
 
 		StudyRoomDAO dao = new StudyRoomDAO();
 		if (title.equals("s")) {
@@ -80,9 +79,8 @@ public class DayRoomPayService {
 	// 스터디룸 다음날 좌석값
 	public void reserveNextday(Model model) {
 		Map<String, Object> map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		String seatNum = request.getParameter("seatNum");
-		String title = request.getParameter("title");
+		String seatNum = (String) map.get("seatNum");
+		String title = (String) map.get("title");
 
 		StudyRoomDAO dao = new StudyRoomDAO();
 

@@ -57,6 +57,7 @@ public class ReserveChkController {
 		
 		//사용자가 클릭한 좌석 번호에 맞는 상세 정보 가져오기
 		model.addAttribute("uniqueUser", request.getParameter("uniqueUser"));
+		model.addAttribute("seatNum", request.getParameter("seatNum"));
 		cr.ReserveChkDetail(model);
 		
 		return "reserveJSP/reserveChkResult";

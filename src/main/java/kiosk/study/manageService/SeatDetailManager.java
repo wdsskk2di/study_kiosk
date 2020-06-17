@@ -17,8 +17,10 @@ public class SeatDetailManager implements Manager {
 		ManagerDAO dao = new ManagerDAO();
 		if(title.equals("p")) {
 			model.addAttribute("detail", dao.studyP_detail(uniqueuser));
+		}else if(title.equals("r")) {
+			model.addAttribute("detail", dao.studyR_detail(uniqueuser));
 		}else {
-			model.addAttribute("detail", dao.studyRS_detail(uniqueuser));
+			model.addAttribute("detail", dao.studyS_detail(uniqueuser));
 		}
 		
 	}

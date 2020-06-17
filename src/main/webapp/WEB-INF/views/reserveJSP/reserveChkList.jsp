@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>결제 완료</title>
 
+<!-- 타이머(이벤트 미발생시 main화면 이동) -->
+<script type="text/javascript" src="resources/jsFile/timer.js"></script>
+
 <style type="text/css">
  .reserve_List{background-color: white; height:500px; width:600px; text-align: center; text-align: center; margin:0 auto; margin-top: 20%;}
  .reserve_List table{margin: 0 auto; width: 300px; border-collapse: collapse;}
@@ -39,7 +42,7 @@
 	<tr><th>좌석 번호</th><th>예약 날짜</th><th>시작 시간</th></tr>
 	
 	<c:forEach var="dto" items="${result }">
-	<tr class="trList"><td><a href="reserveChkResult?title=c&uniqueUser='${dto.getUniqueUser() }'">${dto.getSeatNum() }</a></td><td>${dto.getReDate() }</td><td>${dto.getStartTime() }</td></tr>
+	<tr class="trList"><td><a href="reserveChkResult?title=c&uniqueUser=${dto.getUniqueUser()}&seatNum=${dto.getSeatNum()}">${dto.getSeatNum() }</a></td><td>${dto.getReDate() }</td><td>${dto.getStartTime() }</td></tr>
 	</c:forEach>
 	
 	<tr><td colspan="3"><button type="button" onclick="location.href='main'" class="checkBtn">메인으로</button></td></tr>	

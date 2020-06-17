@@ -56,10 +56,17 @@
 		</c:forEach>
 		</tr>
 		
-		<tr><th>예약 좌석<br>스터디룸</th>
+		<tr><th>예약 좌석</th>
 		<c:forEach var="result" begin="0" end="11">
 			<c:if test="${month_R[result] == null}"><td>--</td></c:if>
 			<c:if test="${month_R[result] != null}"><td>${month_R[result]}원</td></c:if>		
+		</c:forEach>
+		</tr>
+		
+		<tr><th>스터디룸</th>
+		<c:forEach var="result" begin="0" end="11">
+			<c:if test="${month_S[result] == null}"><td>--</td></c:if>
+			<c:if test="${month_S[result] != null}"><td>${month_S[result]}원</td></c:if>		
 		</c:forEach>
 		</tr>
 		

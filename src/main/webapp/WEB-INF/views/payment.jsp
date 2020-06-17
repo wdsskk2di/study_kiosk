@@ -110,7 +110,7 @@ function formCheck() {
 	<c:import url="/WEB-INF/views/default/header.jsp"/>
 	<div class="default">
 		<h3>당일 좌석 결제</h3>
-		<form id="target" action="paymentCheck" method="post" onsubmit="return formCheck()">
+		<form id="target" action="contcheck" method="post" onsubmit="return formCheck()">
 		
 		<table>
 		<tr><td colspan="2"><input type="hidden" name="title" value="${title }"></td></tr>

@@ -138,7 +138,7 @@ public class PaymentController {
 				
 				// 예약의 타임테이블                   *********************************************************************************************  이녀석 오류
 				rsp.reserveDate(model);
-				rsp.reserveNextday(model);
+				//rsp.reserveNextday(model);
 				
 				//좌석 번호
 				model.addAttribute("seatNum", num);
@@ -150,7 +150,8 @@ public class PaymentController {
 				
 				
 				//스터디룸의 타임테이블
-				drp.reserveNextday(model);
+				drp.reserveToday(model);
+				//drp.reserveNextday(model);
 				
 				model.addAttribute("seatNum", num);
 
@@ -197,5 +198,12 @@ public class PaymentController {
 		}
 				
 		return "default/paymentSuccess";
+	}
+	
+	//connectPayCheck
+	@PostMapping("contcheck")
+	public String contcheck(Model model, StudyDTO dto) {
+		model.addAttribute("dto", dto);
+		return "default/contIamport";
 	}
 }

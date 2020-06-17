@@ -46,11 +46,18 @@ public class ManagerDAO {
 		Date date = new Date();
 		SimpleDateFormat sdfTime = new SimpleDateFormat("HH");	
 		String conTime = sdfTime.format(date);
-		
-		String sql_notNull = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is not null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
-		String sql_Null = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
-		template.update(sql_notNull);
-		template.update(sql_Null);
+		try {
+			if(Integer.parseInt(conTime)<17 || Integer.parseInt(conTime)>23) {
+				// 17시~23시 전에 접근 하는 경우 페이지만 넘겨줌
+				String sql_notNull = "update TEST_RESERVE set NULLCHK=null where redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+				template.update(sql_notNull);
+			}else {
+				String sql_notNull = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is not null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+				String sql_Null = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+				template.update(sql_notNull);
+				template.update(sql_Null);
+			}
+		}catch(Exception e) {}
 	}
 	
 	//스터디룸 사용자에게 스터디룸 좌석들의 현재 좌석 사용 상태 보여주기 위한 update
@@ -58,11 +65,18 @@ public class ManagerDAO {
 		Date date = new Date();
 		SimpleDateFormat sdfTime = new SimpleDateFormat("HH");	
 		String conTime = sdfTime.format(date);
-		
-		String sql_notNull = "update test_studyRoom set NULLCHK=p"+conTime+" where p"+conTime+" is not null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
-		String sql_Null = "update test_studyRoom set NULLCHK=p"+conTime+" where p"+conTime+" is null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
-		template.update(sql_notNull);
-		template.update(sql_Null);
+		try {
+			if(Integer.parseInt(conTime)<17 || Integer.parseInt(conTime)>23) {
+				// 17시~23시 전에 접근 하는 경우 페이지만 넘겨줌
+				String sql_notNull = "update test_studyRoom set NULLCHK=null where redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+				template.update(sql_notNull);
+			}else {
+				String sql_notNull = "update test_studyRoom set NULLCHK=p"+conTime+" where p"+conTime+" is not null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+				String sql_Null = "update test_studyRoom set NULLCHK=p"+conTime+" where p"+conTime+" is null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+				template.update(sql_notNull);
+				template.update(sql_Null);
+			}
+		}catch(Exception e) {}
 	}
 	
 	//스터디룸 현재 배치도 확인
@@ -108,11 +122,24 @@ public class ManagerDAO {
 			}
 		}
 		
-		//좌석 관리 페이지 상세 내용 -예약, 스터디룸
-		public StudyDTO studyRS_detail(String uniqueuser) {
+		//좌석 관리 페이지 상세 내용 -예약
+		public StudyDTO studyR_detail(String uniqueuser) {
 			try {
 				String sql = "select seatNum, todate, redate, starttime, endtime, timenum, totalmoney, peoplenum, phonenum"
 						+ " from reserve_timeset where uniqueuser="+uniqueuser;
+				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("유니크유저 이용한 예약,스터디룸 현재 이용자 상세 목록 조회 실패");
+				return null;
+			}
+		}
+		
+		//좌석 관리 페이지 상세 내용 -스터디룸
+		public StudyDTO studyS_detail(String uniqueuser) {
+			try {
+				String sql = "select seatNum, todate, redate, starttime, endtime, timenum, totalmoney, peoplenum, phonenum"
+						+ " from room_timeset where uniqueuser="+uniqueuser;
 				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -263,7 +290,20 @@ public class ManagerDAO {
 				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("유니크유저 이용한 예약 상세 목록 조회 실패");
+				System.out.println("유니크유저 이용한 예약 좌석 상세 목록 조회 실패");
+				return null;
+			}
+		}
+		
+		//스터디룸 예약 테이블 상세 내용
+		public StudyDTO studyroom_detail(String uniqueuser) {
+			try {
+				String sql = "select seatNum, todate, redate, starttime, endtime, timenum, totalmoney, peoplenum, phonenum"
+						+ " from room_timeset where uniqueuser="+uniqueuser;
+				return template.queryForObject(sql, new BeanPropertyRowMapper<StudyDTO>(StudyDTO.class));
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("유니크유저 이용한 스터디룸 예약 상세 목록 조회 실패");
 				return null;
 			}
 		}
