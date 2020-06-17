@@ -67,8 +67,8 @@ function get_StoDate() {
 	} catch (e) {}	
 }
 
-function popOpenS(code) {
-	url="detail_reserve?uniqueuser="+code;
+function popOpenS(code, seatNum) {
+	url="detail_reserve?uniqueuser="+code+"&seatNum="+seatNum;
 	name = "_blank";
 	specs="width=400, height=500, top=100, left=200, toolbar=no, menubar=no, resizable=no";
 	window.open(url, name, specs);
@@ -88,27 +88,27 @@ function popOpenS(code) {
 		<th>${reSDate.seatNum }번</th>
 			<td><c:choose>
 				<c:when test="${reSDate.p17 == null }">--</c:when>
-				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p17})'>예약 완료</a></c:otherwise>
+				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p17}, ${reSDate.seatNum })'>예약 완료</a></c:otherwise>
 			</c:choose></td>
 			<td><c:choose>
 				<c:when test="${reSDate.p18 == null }">--</c:when>
-				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p18})'>예약 완료</a></c:otherwise>
+				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p18}, ${reSDate.seatNum })'>예약 완료</a></c:otherwise>
 			</c:choose></td>
 			<td><c:choose>
 				<c:when test="${reSDate.p19 == null }">--</c:when>
-				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p19})'>예약 완료</a></c:otherwise>
+				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p19}, ${reSDate.seatNum })'>예약 완료</a></c:otherwise>
 			</c:choose></td>
 			<td><c:choose>
 				<c:when test="${reSDate.p20 == null }">--</c:when>
-				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p20})'>예약 완료</a></c:otherwise>
+				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p20}, ${reSDate.seatNum })'>예약 완료</a></c:otherwise>
 			</c:choose></td>
 			<td><c:choose>
 				<c:when test="${reSDate.p21 == null }">--</c:when>
-				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p21})'>예약 완료</a></c:otherwise>
+				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p21}, ${reSDate.seatNum })'>예약 완료</a></c:otherwise>
 			</c:choose></td>
 			<td><c:choose>
 				<c:when test="${reSDate.p22 == null }">--</c:when>
-				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p22})'>예약 완료</a></c:otherwise>
+				<c:otherwise><a href="#" onclick='popOpenS(${reSDate.p22}, ${reSDate.seatNum })'>예약 완료</a></c:otherwise>
 			</c:choose></td>
 		</tr>
 	</c:forEach>

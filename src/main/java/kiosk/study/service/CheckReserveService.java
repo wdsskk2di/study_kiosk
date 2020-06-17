@@ -19,10 +19,15 @@ public class CheckReserveService {
 	public void ReserveChkDetail(Model model) {
 		Map<String, Object> map = model.asMap();
 		String uniqueUser = (String)map.get("uniqueUser");
+		int seatNum = Integer.parseInt((String)map.get("seatNum"));
 
 		ReserveChkDAO dao = new ReserveChkDAO();
-
-		model.addAttribute("result", dao.reserveChkDetail(uniqueUser));
+		if(seatNum>40) {
+			model.addAttribute("result", dao.reserveChkDetailS(uniqueUser));
+		}else {
+			model.addAttribute("result", dao.reserveChkDetailR(uniqueUser));
+		}
+		
 	}
 	
 

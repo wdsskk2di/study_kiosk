@@ -119,7 +119,7 @@ public class StudyRoomDAO {
 
 			switch (timeNum) {
 			case 1:
-				sql = "update test_studyroom set p" + startTime + "=" + dto.getStartTime() + " where seatNum="
+				sql = "update test_studyroom set p" + startTime + "=" + getUniqueUser + " where seatNum="
 						+ dto.getSeatNum() + " and reDate='" + dto.getReDate() + "'";
 				break;
 			case 2:
