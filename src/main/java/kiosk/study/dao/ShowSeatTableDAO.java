@@ -63,11 +63,19 @@ public class ShowSeatTableDAO {
 			Date date = new Date();
 			SimpleDateFormat sdfTime = new SimpleDateFormat("HH");	
 			String conTime = sdfTime.format(date);
+			try {
+				if(Integer.parseInt(conTime)<17 || Integer.parseInt(conTime)>23) {
+					// 17시~23시 전에 접근 하는 경우 페이지만 넘겨줌
+					String sql_notNull = "update TEST_RESERVE set NULLCHK=null where redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+					template.update(sql_notNull);
+				}else {
+					String sql_notNull = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is not null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+					String sql_Null = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
+					template.update(sql_notNull);
+					template.update(sql_Null);
+				}
+			}catch(Exception e) {}
 			
-			String sql_notNull = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is not null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
-			String sql_Null = "update TEST_RESERVE set NULLCHK=p"+conTime+" where p"+conTime+" is null and redate=(to_char(sysdate, 'yyyy/mm/dd'))";
-			template.update(sql_notNull);
-			template.update(sql_Null);
 		}
 	
 
