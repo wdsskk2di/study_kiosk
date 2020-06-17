@@ -32,20 +32,10 @@ public class StudyDAO {
 	//사용자가 시간선택, 시간가격값, 핸드폰번호  db저장 #2
 	public void daySeatSelect(final StudyDTO dto) {
 		try {
-			String sql = "insert into kiosk_dayuser(seatNum, timeNum, TotalMoney, phoneNum) values (?,?,?,?)";
-
-			template.update(sql, new PreparedStatementSetter() {
-
-				@Override
-				public void setValues(PreparedStatement ps) throws SQLException {
-					ps.setInt(1, dto.getSeatNum());
-					ps.setInt(2, dto.getTimeNum());
-					ps.setInt(3, dto.getTotalMoney());
-					ps.setInt(4, dto.getPhoneNum());
-				}
-			});
-			System.out.println("사용자 결제 내역 저장 #2 :  좌석 번호 :"+dto.getSeatNum()+", 사용시간 :"+dto.getTimeNum()+", 사용가격 :"+dto.getTotalMoney()+
-					", 핸드폰번호 :"+dto.getPhoneNum());
+			String sql = "insert into kiosk_dayuser(seatNum, timeNum, TotalMoney, phoneNum) values ("+dto.getSeatNum()+", "+
+					dto.getTimeNum()+", "+dto.getTotalMoney()+", "+dto.getPhoneNum()+")";
+			
+			template.update(sql);
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("사용자 결제 내역 저장 실패 $2");
