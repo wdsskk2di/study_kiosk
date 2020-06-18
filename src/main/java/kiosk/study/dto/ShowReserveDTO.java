@@ -36,9 +36,3 @@ public class ShowReserveDTO {
 	public void setP22(String p22) {this.p22 = p22;}
 	
 }
-/*
- create table test_reserve(seatNum number not null, reDate varchar2(8),
-P17 varchar2(5), P18 varchar2(5), P19 varchar2(5),P20 varchar2(5),
-P21 varchar2(5), P22 varchar2(5));
-insert into TEST_RESERVE VALUES(43, null, null, null, null, null, null, null);
- */
